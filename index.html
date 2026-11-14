@@ -13,6 +13,14 @@
 .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}.panel{background:linear-gradient(160deg,#171d2a,#111620);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.drop-panel{padding:22px}.section-title{font-size:15px;font-weight:750;margin:0 0 5px}.sub{font-size:12px;color:var(--muted);line-height:1.65;margin:0}.dropzone{margin-top:16px;min-height:176px;border:1.5px dashed #56627e;border-radius:16px;background:#171e2b;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;transition:.18s}.dropzone.drag{border-color:var(--accent2);background:#182b2b;transform:scale(1.01)}.upload-icon{width:48px;height:48px;border-radius:15px;background:#29324a;color:#b9c5ff;display:grid;place-items:center;font-size:24px;margin-bottom:10px}.dropzone strong{font-size:14px}.dropzone span{font-size:12px;color:var(--muted);margin-top:5px}.primary,.secondary,.danger-btn{border:0;border-radius:11px;padding:10px 15px;font-weight:700;font-size:13px;transition:transform .15s,filter .15s}.primary{background:linear-gradient(135deg,#a2adff,#7789f5);color:#12172a;margin-top:13px}.secondary{background:#283248;color:#e4e9ff;border:1px solid #3a4762}.danger-btn{background:#3a202a;color:#ffabb5;border:1px solid #683441}.primary:hover,.secondary:hover,.danger-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}.primary:disabled,.secondary:disabled{opacity:.45;cursor:not-allowed;transform:none}.privacy{padding:22px;display:flex;flex-direction:column;gap:12px}.privacy-head{display:flex;align-items:center;gap:10px}.shield{width:36px;height:36px;border-radius:12px;background:#15352e;color:#8ae6c8;display:grid;place-items:center;font-size:18px}.privacy h2{font-size:15px;margin:0}.privacy-list{display:grid;gap:9px}.privacy-item{display:flex;gap:9px;font-size:12px;line-height:1.55;color:#c5ccda}.check{color:#7ee0be;font-weight:900}.privacy-note{font-size:11px;line-height:1.6;color:#9eabc0;border-top:1px solid var(--line);padding-top:10px;margin:0}.library{padding:21px;margin-top:18px}.library-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.library-head h2{font-size:16px;margin:0}.count{font-size:11px;color:var(--muted);background:#242c3c;border:1px solid #354057;border-radius:99px;padding:5px 9px}.empty{border:1px dashed #364158;border-radius:14px;padding:26px 16px;text-align:center;color:var(--muted);font-size:13px}.empty .big{font-size:28px;margin-bottom:7px}.project-list{display:grid;gap:10px}.project{display:flex;align-items:center;gap:13px;padding:13px;border-radius:14px;background:#171e2b;border:1px solid #2e394e;min-width:0}.file-icon{width:42px;height:42px;border-radius:12px;background:#27334a;display:grid;place-items:center;color:#c0ccff;font-size:12px;font-weight:800;flex:none}.project-info{min-width:0;flex:1}.project-name-btn{display:inline-block;max-width:100%;padding:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:14px;font-weight:750;text-align:left;overflow-wrap:anywhere;text-decoration:underline;text-decoration-color:#68758f;text-decoration-thickness:1px;text-underline-offset:4px;cursor:text}.project-name-btn:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:3px}.rename-input{width:min(100%,340px);padding:7px 9px;border:1px solid var(--accent);border-radius:8px;background:#0e1420;color:var(--text);font:inherit;font-size:14px;outline:none}.project-meta{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}.project-actions{display:flex;gap:7px;flex:none;position:relative;align-items:center}.project-actions>button{padding:8px 11px;font-size:12px;white-space:nowrap}.more-menu{position:absolute;z-index:30;right:0;top:calc(100% + 9px);width:190px;padding:6px;border:1px solid #3a4762;border-radius:13px;background:#171e2b;box-shadow:0 14px 35px #0009;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-7px) scale(.98);transform-origin:top right;transition:opacity .17s ease,transform .17s ease,visibility .17s}.more-menu.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}.more-menu.up{top:auto;bottom:calc(100% + 9px);transform:translateY(7px) scale(.98);transform-origin:bottom right}.more-menu.up.open{transform:translateY(0) scale(1)}.menu-item{display:block;width:100%;padding:10px 11px;border:0;border-radius:8px;background:transparent;color:#e7ebf7;text-align:left;font-size:12px;font-weight:650}.menu-item:hover,.menu-item:focus-visible{background:#29334a;outline:none}.menu-item.danger{color:#ffabb5}.project-list{overflow:visible}.status{min-height:20px;margin:12px 2px 0;font-size:12px;color:var(--muted)}.status.error{color:#ff9eaa}.status.success{color:#81e5c2}.foot{font-size:11px;color:#768299;text-align:center;margin:20px 0 0;line-height:1.6}.hidden{display:none!important}
 /* fullscreen runner */
 #runner{display:none;position:fixed;inset:0;z-index:9999;background:#000}#runner.active{display:block}#runner:fullscreen{width:100vw;height:100vh;background:#000}#runnerFrame{display:block;width:100%;height:100%;border:0;background:#fff}#runnerLoading{position:absolute;inset:0;display:grid;place-items:center;color:white;background:#0b0d13;font-size:14px;pointer-events:none}#runnerLoading.off{display:none}
+
+/* backup controls + privacy dialog */
+.hero{grid-template-columns:1fr}
+.local-pill{font:inherit;cursor:pointer;transition:filter .15s,transform .15s}.local-pill:hover{filter:brightness(1.12);transform:translateY(-1px)}.local-pill span{font-size:13px;opacity:.8}
+.library-head{align-items:flex-start;flex-wrap:wrap}.library-title{display:flex;align-items:center;gap:10px;min-height:38px}.library-tools{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap}.library-tools button{margin:0;padding:9px 11px;font-size:11px}
+.modal-backdrop[hidden]{display:none!important}.modal-backdrop{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px;background:#050811bb;backdrop-filter:blur(7px);opacity:0;transition:opacity .2s ease}.modal-backdrop:not([hidden]){opacity:1}.privacy-modal{width:min(100%,460px);max-height:min(86vh,680px);overflow:auto;border:1px solid #3b4760;border-radius:20px;background:linear-gradient(155deg,#1b2333,#111722);box-shadow:0 24px 80px #000b;padding:20px;transform:translateY(10px) scale(.985);animation:modalIn .22s ease forwards}@keyframes modalIn{to{transform:translateY(0) scale(1)}}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.modal-head h2{font-size:17px;margin:0}.modal-close{width:34px;height:34px;border:1px solid #3a4762;border-radius:10px;background:#242e42;color:#eaf0ff;font-size:22px;line-height:1}.modal-content{display:grid;gap:13px;margin-top:16px}.modal-lead{font-size:13px;line-height:1.7;margin:0;color:#dce4f5}.modal-check{color:#7ee0be;font-weight:900;margin-right:5px}.modal-point{display:grid;gap:3px;padding:11px 12px;border:1px solid #2e394f;border-radius:12px;background:#171f2d}.modal-point b{font-size:12px;color:#b9c7ff}.modal-point span{font-size:12px;line-height:1.6;color:#c3ccdc}.modal-warning{font-size:11px;line-height:1.7;color:#a2aec2;margin:0;border-top:1px solid #2e394f;padding-top:12px}.modal-ok{width:100%;margin-top:16px}
+@media(max-width:760px){.library-head{align-items:stretch}.library-tools{justify-content:flex-start}.library-tools button{flex:1 1 calc(50% - 7px)}.library-title{justify-content:space-between}.privacy-modal{padding:17px}}
+
 @media(max-width:760px){.app{width:min(100% - 22px,620px);padding-top:17px}.hero{grid-template-columns:1fr}.privacy{padding:17px}.drop-panel,.library{padding:17px}.top{margin-bottom:18px}.brand h1{font-size:18px}.local-pill{font-size:10px;padding:7px 9px}.project{align-items:flex-start}.project-actions{flex-direction:row}.project-actions>button{min-width:0;padding:8px 10px}.more-menu{width:178px}.dropzone{min-height:160px}}
 </style>
 </head>
@@ -20,7 +28,7 @@
 <main class="app" id="app">
   <header class="top">
     <div class="brand"><div class="logo">&lt;/&gt;</div><div><h1>HTML Library</h1><p>ローカルHTMLランチャー</p></div></div>
-    <div class="local-pill"><i class="dot"></i> この端末だけに保存</div>
+    <button class="local-pill" id="privacyInfoBtn" type="button" aria-haspopup="dialog" aria-expanded="false"><i class="dot"></i> この端末だけに保存 <span aria-hidden="true">ⓘ</span></button>
   </header>
 
   <section class="hero">
@@ -37,24 +45,37 @@
       <div class="status" id="status" aria-live="polite">対応形式：.html / .htm / .zip</div>
     </div>
 
-    <aside class="panel privacy">
-      <div class="privacy-head"><div class="shield">✓</div><div><h2>アップロードなし</h2><p class="sub">ファイルはブラウザ内に保存</p></div></div>
-      <div class="privacy-list">
-        <div class="privacy-item"><span class="check">✓</span><span>選んだファイルをサーバーへ送信しない</span></div>
-        <div class="privacy-item"><span class="check">✓</span><span>ライブラリはこのブラウザの IndexedDB に保存</span></div>
-        <div class="privacy-item"><span class="check">✓</span><span>実行ページはサンドボックス内で動作し、通常の通信をCSPで遮断</span></div>
-      </div>
-      <p class="privacy-note">注意：実行するHTMLは自分で内容を確認してね。通信を遮断しているため、外部CDN・オンラインAPIなどを必要とするページは正常に動かない場合があるよ。ブラウザのデータを消すとライブラリも消えるよ。</p>
-    </aside>
   </section>
 
   <section class="panel library">
-    <div class="library-head"><h2>マイライブラリ</h2><span class="count" id="count">0 件</span></div>
+    <div class="library-head">
+      <div class="library-title"><h2>マイライブラリ</h2><span class="count" id="count">0 件</span></div>
+      <div class="library-tools">
+        <button class="secondary" id="exportBackupBtn" type="button">バックアップを書き出す</button>
+        <button class="secondary" id="importBackupBtn" type="button">バックアップを追加</button>
+        <button class="danger-btn" id="clearLibraryBtn" type="button">すべて削除</button>
+        <input id="backupInput" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+      </div>
+    </div>
     <div class="empty" id="empty"><div class="big">▱</div>まだファイルがないよ。HTMLかZIPを追加してみてね。</div>
     <div class="project-list" id="projectList"></div>
   </section>
-  <p class="foot">データはこのブラウザ内にのみ保存されるよ。サイトごとのlocalStorageも個別に保存され、実行画面はブラウザの「戻る」で終了できるよ。</p>
+  <p class="foot">データはこのブラウザ内に保存されるよ。バックアップZIPにはHTML・関連ファイル・各サイトの保存データが含まれるよ。</p>
 </main>
+
+<div class="modal-backdrop" id="privacyModal" hidden>
+  <section class="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacyModalTitle">
+    <div class="modal-head"><h2 id="privacyModalTitle">この端末だけに保存</h2><button class="modal-close" id="privacyModalClose" type="button" aria-label="閉じる">×</button></div>
+    <div class="modal-content">
+      <p class="modal-lead"><span class="modal-check">✓</span> 選択したHTML・ZIPやサイト別データは、このブラウザのIndexedDBに保存されるよ。</p>
+      <div class="modal-point"><b>アップロードなし</b><span>このライブラリは、選択したファイルをサーバーへ送信しないよ。</span></div>
+      <div class="modal-point"><b>サイトごとに保存</b><span>各サイトのlocalStorage相当のデータも、この端末内で別々に保存するよ。</span></div>
+      <div class="modal-point"><b>バックアップ</b><span>「バックアップを書き出す」を押すと、ライブラリと各サイトの保存データをZIPでダウンロードできるよ。</span></div>
+      <p class="modal-warning">注意：実行するHTMLの内容は確認してね。実行ページは通信を制限しているけれど、ブラウザの仕様やページの作りによって制限には限界があるよ。ブラウザのサイトデータを消すと、バックアップしていないライブラリも消える場合があるよ。</p>
+    </div>
+    <button class="primary modal-ok" id="privacyModalOk" type="button">OK</button>
+  </section>
+</div>
 
 <div id="runner" aria-label="HTML実行画面">
   <iframe id="runnerFrame" title="選択したHTML" sandbox="allow-scripts allow-pointer-lock" allow="fullscreen; gamepad" allowfullscreen referrerpolicy="no-referrer"></iframe>
@@ -70,6 +91,9 @@
   const MAX_FILES = 2500;
   const MAX_FILE_SIZE = 80 * 1024 * 1024;
   const MAX_TOTAL_SIZE = 160 * 1024 * 1024;
+  const MAX_ARCHIVE_SIZE = 512 * 1024 * 1024;
+  const BACKUP_ROOT = '__html_library_backup__/';
+  const BACKUP_MANIFEST = BACKUP_ROOT + 'manifest.json';
   const $ = (id) => document.getElementById(id);
   const fileInput = $('fileInput');
   const dropzone = $('dropzone');
@@ -197,6 +221,200 @@
     const tx = database.transaction('siteStorage', 'readwrite');
     tx.objectStore('siteStorage').delete(projectId);
     await transactionDone(tx);
+  }
+
+  async function getAllLibraryData() {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readonly');
+      const projectsReq = tx.objectStore('projects').getAll();
+      const filesReq = tx.objectStore('files').getAll();
+      const storageReq = tx.objectStore('siteStorage').getAll();
+      tx.oncomplete = () => resolve({
+        projects: projectsReq.result || [],
+        files: filesReq.result || [],
+        siteStorage: storageReq.result || []
+      });
+      tx.onerror = () => reject(tx.error || new Error('ライブラリの読み込みに失敗したよ。'));
+      tx.onabort = () => reject(tx.error || new Error('ライブラリの読み込みが中断されたよ。'));
+    });
+  }
+
+  async function clearAllLibrary() {
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readwrite');
+    tx.objectStore('projects').clear();
+    tx.objectStore('files').clear();
+    tx.objectStore('siteStorage').clear();
+    await transactionDone(tx);
+  }
+
+  function crc32(bytes) {
+    let crc = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) {
+      crc ^= bytes[i];
+      for (let j = 0; j < 8; j++) crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+    }
+    return (crc ^ 0xffffffff) >>> 0;
+  }
+
+  function zipDosDateTime(date = new Date()) {
+    const year = Math.max(1980, date.getFullYear());
+    const dosTime = (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2);
+    const dosDate = ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
+    return { dosTime, dosDate };
+  }
+
+  function createStoredZip(entries) {
+    if (entries.length > 65535) throw new Error('バックアップ内のファイル数が多すぎるよ。');
+    const encoder = new TextEncoder();
+    const localParts = [];
+    const centralParts = [];
+    let localOffset = 0;
+    let payloadTotal = 0;
+    const stamp = zipDosDateTime();
+    const u16 = (view, offset, value) => view.setUint16(offset, value, true);
+    const u32 = (view, offset, value) => view.setUint32(offset, value >>> 0, true);
+
+    for (const entry of entries) {
+      const nameBytes = encoder.encode(entry.path);
+      const data = entry.data instanceof Uint8Array ? entry.data : new Uint8Array(entry.data);
+      if (nameBytes.length > 65535 || data.length > 0xffffffff) throw new Error('ZIPに保存できない大きさのファイルがあるよ。');
+      const crc = crc32(data);
+      const local = new Uint8Array(30 + nameBytes.length);
+      const lv = new DataView(local.buffer);
+      u32(lv, 0, 0x04034b50); u16(lv, 4, 20); u16(lv, 6, 0x0800); u16(lv, 8, 0);
+      u16(lv, 10, stamp.dosTime); u16(lv, 12, stamp.dosDate); u32(lv, 14, crc);
+      u32(lv, 18, data.length); u32(lv, 22, data.length); u16(lv, 26, nameBytes.length); u16(lv, 28, 0);
+      local.set(nameBytes, 30);
+      localParts.push(local, data);
+
+      const central = new Uint8Array(46 + nameBytes.length);
+      const cv = new DataView(central.buffer);
+      u32(cv, 0, 0x02014b50); u16(cv, 4, 20); u16(cv, 6, 20); u16(cv, 8, 0x0800); u16(cv, 10, 0);
+      u16(cv, 12, stamp.dosTime); u16(cv, 14, stamp.dosDate); u32(cv, 16, crc);
+      u32(cv, 20, data.length); u32(cv, 24, data.length); u16(cv, 28, nameBytes.length);
+      u16(cv, 30, 0); u16(cv, 32, 0); u16(cv, 34, 0); u16(cv, 36, 0); u32(cv, 38, 0); u32(cv, 42, localOffset);
+      central.set(nameBytes, 46);
+      centralParts.push(central);
+      localOffset += local.length + data.length;
+      payloadTotal += data.length;
+      if (payloadTotal > MAX_ARCHIVE_SIZE) throw new Error('バックアップが大きすぎるよ（上限 ' + formatBytes(MAX_ARCHIVE_SIZE) + '）。');
+      if (localOffset > 0xffffffff) throw new Error('ZIP64が必要なサイズのバックアップには対応していないよ。');
+    }
+
+    const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+    if (centralSize > 0xffffffff || localOffset + centralSize > 0xffffffff) throw new Error('ZIP64が必要なサイズのバックアップには対応していないよ。');
+    const end = new Uint8Array(22);
+    const ev = new DataView(end.buffer);
+    u32(ev, 0, 0x06054b50); u16(ev, 4, 0); u16(ev, 6, 0); u16(ev, 8, entries.length); u16(ev, 10, entries.length);
+    u32(ev, 12, centralSize); u32(ev, 16, localOffset); u16(ev, 20, 0);
+    return new Blob([...localParts, ...centralParts, end], { type: 'application/zip' });
+  }
+
+  async function exportLibraryBackup() {
+    const data = await getAllLibraryData();
+    const storageById = new Map(data.siteStorage.map(item => [item.projectId, item.values || {}]));
+    const fileByProject = new Map();
+    for (const record of data.files) {
+      if (!fileByProject.has(record.projectId)) fileByProject.set(record.projectId, []);
+      fileByProject.get(record.projectId).push(record);
+    }
+    const manifest = { format: 'html-library-backup', version: 1, exportedAt: Date.now(), projects: [] };
+    const zipEntries = [];
+    let archiveIndex = 0;
+    for (const project of data.projects) {
+      const records = fileByProject.get(project.id) || [];
+      if (!records.length) continue;
+      archiveIndex++;
+      const archiveId = String(archiveIndex).padStart(5, '0');
+      const files = [];
+      for (const record of records) {
+        const cleanPath = safePath(record.path);
+        const archivePath = BACKUP_ROOT + 'projects/' + archiveId + '/files/' + cleanPath;
+        const bytes = new Uint8Array(await record.blob.arrayBuffer());
+        zipEntries.push({ path: archivePath, data: bytes });
+        files.push({ path: cleanPath, archivePath, size: bytes.length, type: record.type || guessMime(cleanPath) });
+      }
+      manifest.projects.push({
+        archiveId,
+        project: {
+          name: String(project.name || 'Untitled'), originalName: String(project.originalName || project.name || 'backup'),
+          entryPath: safePath(project.entryPath), createdAt: Number(project.createdAt) || Date.now(),
+          fileCount: files.length, totalSize: files.reduce((sum, item) => sum + item.size, 0), kind: project.kind === 'ZIP' ? 'ZIP' : 'HTML'
+        },
+        storage: normalizeStorageValues(storageById.get(project.id) || {}),
+        files
+      });
+    }
+    const manifestBytes = new TextEncoder().encode(JSON.stringify(manifest));
+    zipEntries.unshift({ path: BACKUP_MANIFEST, data: manifestBytes });
+    if (zipEntries.length > MAX_FILES) throw new Error('バックアップ内のファイル数が上限を超えているよ（' + MAX_FILES + '件）。');
+    const blob = createStoredZip(zipEntries);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const date = new Date();
+    const stamp = [date.getFullYear(), String(date.getMonth()+1).padStart(2,'0'), String(date.getDate()).padStart(2,'0'), '-', String(date.getHours()).padStart(2,'0'), String(date.getMinutes()).padStart(2,'0')].join('');
+    a.href = url; a.download = 'html-library-backup-' + stamp + '.zip';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    return { projectCount: manifest.projects.length, fileCount: zipEntries.length - 1, size: blob.size };
+  }
+
+  async function importLibraryBackup(extracted, manifest) {
+    if (!manifest || manifest.format !== 'html-library-backup' || manifest.version !== 1 || !Array.isArray(manifest.projects)) {
+      throw new Error('このバックアップ形式には対応していないよ。');
+    }
+    if (manifest.projects.length > MAX_FILES) throw new Error('バックアップ内のサイト数が多すぎるよ。');
+    const extractedByPath = new Map(extracted.map(item => [safePath(item.path), item]));
+    const prepared = [];
+    let totalFiles = 0;
+    let totalBytes = 0;
+    for (const saved of manifest.projects) {
+      const meta = saved && saved.project;
+      if (!meta || !Array.isArray(saved.files) || !saved.files.length) continue;
+      const id = makeId();
+      const entries = [];
+      for (const file of saved.files) {
+        const originalPath = safePath(file.path);
+        const archivePath = safePath(file.archivePath);
+        const item = extractedByPath.get(archivePath);
+        if (!originalPath || !archivePath || !item) throw new Error('バックアップ内のファイルが見つからないよ：' + (file.path || '不明'));
+        if (item.data.byteLength > MAX_FILE_SIZE) throw new Error('大きすぎるファイルが含まれているよ：' + originalPath);
+        totalFiles++;
+        totalBytes += item.data.byteLength;
+        if (totalFiles > MAX_FILES || totalBytes > MAX_ARCHIVE_SIZE) throw new Error('バックアップの容量またはファイル数が上限を超えているよ。');
+        entries.push({
+          key: id + '::' + originalPath, projectId: id, path: originalPath,
+          blob: new Blob([item.data], { type: file.type || guessMime(originalPath) }),
+          size: item.data.byteLength, type: file.type || guessMime(originalPath)
+        });
+      }
+      const entryPath = safePath(meta.entryPath);
+      if (!entries.some(item => item.path === entryPath)) throw new Error('起動ファイルが含まれていないサイトがあるよ：' + (meta.name || '名称不明'));
+      const project = {
+        id, name: String(meta.name || 'Restored site').slice(0, 120),
+        originalName: String(meta.originalName || meta.name || 'backup'), entryPath,
+        createdAt: Number(meta.createdAt) || Date.now(), fileCount: entries.length,
+        totalSize: entries.reduce((sum, item) => sum + item.size, 0), kind: meta.kind === 'ZIP' ? 'ZIP' : 'HTML'
+      };
+      const storage = normalizeStorageValues(saved.storage || {});
+      prepared.push({ project, entries, storage });
+    }
+    if (!prepared.length) throw new Error('追加できるサイトがバックアップ内に見つからなかったよ。');
+
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readwrite');
+    const projectsStore = tx.objectStore('projects');
+    const filesStore = tx.objectStore('files');
+    const storageStore = tx.objectStore('siteStorage');
+    for (const item of prepared) {
+      projectsStore.put(item.project);
+      for (const file of item.entries) filesStore.put(file);
+      storageStore.put({ projectId: item.project.id, values: item.storage, updatedAt: Date.now() });
+    }
+    await transactionDone(tx);
+    return { projectCount: prepared.length, fileCount: totalFiles };
   }
 
   function normalizeStorageValues(values) {
@@ -344,7 +562,7 @@
       }
       if (uncompressedSize > MAX_FILE_SIZE) throw new Error('大きすぎるファイルが含まれているよ：' + path);
       totalSize += uncompressedSize;
-      if (totalSize > MAX_TOTAL_SIZE) throw new Error('ZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_TOTAL_SIZE) + '）。');
+      if (totalSize > MAX_ARCHIVE_SIZE) throw new Error('ZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_ARCHIVE_SIZE) + '）。');
 
       if (localOffset + 30 > bytes.length || view.getUint32(localOffset, true) !== 0x04034b50) {
         throw new Error('ZIP内のファイルデータを読めなかったよ：' + path);
@@ -396,6 +614,19 @@
         setStatus('ZIPを展開中…');
         const extracted = await readZip(await file.arrayBuffer(), (n, total) => setStatus('ZIPを展開中… ' + n + ' / ' + total));
         if (!extracted.length) throw new Error('ZIPの中にファイルが見つからなかったよ。');
+        const backupManifestFile = extracted.find(item => safePath(item.path) === BACKUP_MANIFEST);
+        if (backupManifestFile) {
+          setStatus('バックアップを確認中…');
+          let manifest;
+          try { manifest = JSON.parse(new TextDecoder('utf-8').decode(backupManifestFile.data)); }
+          catch (_) { throw new Error('バックアップの管理情報を読み取れなかったよ。'); }
+          const result = await importLibraryBackup(extracted, manifest);
+          await renderLibrary();
+          setStatus('バックアップを追加したよ：' + result.projectCount + ' サイト / ' + result.fileCount + ' ファイル', 'success');
+          return;
+        }
+        const siteArchiveSize = extracted.reduce((sum, item) => sum + item.size, 0);
+        if (siteArchiveSize > MAX_TOTAL_SIZE) throw new Error('サイトZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_TOTAL_SIZE) + '）。');
         const candidates = extracted.filter(item => /(^|\/)index\.html?$/i.test(item.path));
         if (!candidates.length) throw new Error('ZIP内に index.html（または index.htm）が見つからないよ。');
         candidates.sort((a, b) => a.path.split('/').length - b.path.split('/').length);
@@ -811,6 +1042,57 @@
   });
   document.addEventListener('pointerdown', event => {
     if (!event.target.closest('.project-actions')) closeAllProjectMenus();
+  });
+
+  const privacyModal = $('privacyModal');
+  const privacyInfoBtn = $('privacyInfoBtn');
+  function closePrivacyModal() {
+    privacyModal.hidden = true;
+    privacyInfoBtn.setAttribute('aria-expanded', 'false');
+  }
+  privacyInfoBtn.addEventListener('click', () => {
+    privacyModal.hidden = false;
+    privacyInfoBtn.setAttribute('aria-expanded', 'true');
+    $('privacyModalOk').focus();
+  });
+  $('privacyModalClose').addEventListener('click', closePrivacyModal);
+  $('privacyModalOk').addEventListener('click', closePrivacyModal);
+  privacyModal.addEventListener('click', event => { if (event.target === privacyModal) closePrivacyModal(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !privacyModal.hidden) closePrivacyModal(); });
+
+  $('exportBackupBtn').addEventListener('click', async () => {
+    const button = $('exportBackupBtn');
+    button.disabled = true;
+    try {
+      setStatus('ライブラリとサイトデータをバックアップ中…');
+      const result = await exportLibraryBackup();
+      setStatus('バックアップをダウンロードしたよ：' + result.projectCount + ' サイト / ' + formatBytes(result.size), 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(error.message || 'バックアップを書き出せなかったよ。', 'error');
+    } finally { button.disabled = false; }
+  });
+  $('importBackupBtn').addEventListener('click', () => $('backupInput').click());
+  $('backupInput').addEventListener('change', async () => {
+    const file = $('backupInput').files && $('backupInput').files[0];
+    if (!file) return;
+    const button = $('importBackupBtn');
+    button.disabled = true;
+    try { await importFile(file); }
+    finally { button.disabled = false; $('backupInput').value = ''; }
+  });
+  $('clearLibraryBtn').addEventListener('click', async () => {
+    const projects = await getProjects();
+    if (!projects.length) { setStatus('削除するライブラリはないよ。'); return; }
+    if (!confirm('ライブラリ内の ' + projects.length + ' サイトと、すべてのサイト別保存データを削除する？\nこの操作は元に戻せないよ。必要なら先にバックアップを書き出してね。')) return;
+    const button = $('clearLibraryBtn');
+    button.disabled = true;
+    try {
+      await clearAllLibrary();
+      await renderLibrary();
+      setStatus('ライブラリとすべてのサイト別保存データを削除したよ。', 'success');
+    } catch (error) { setStatus(error.message || 'すべて削除できなかったよ。', 'error'); }
+    finally { button.disabled = false; }
   });
 
   $('pickBtn').addEventListener('click', (event) => { event.stopPropagation(); fileInput.click(); });
