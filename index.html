@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>HTML Library — Local Runner</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0d13;--panel:#141823;--panel2:#1b2130;--line:#2b3446;--text:#f3f5fb;--muted:#9aa5b8;--accent:#8b9cff;--accent2:#6de0c0;--danger:#ff7888;--shadow:0 18px 55px #0007}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 15% 0%,#1e2740 0,transparent 42%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.app{width:min(1100px,100% - 32px);margin:0 auto;padding:28px 0 46px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#8998ff,#6575d9);box-shadow:0 8px 25px #7888ff44;font-weight:900;font-size:19px;color:#101426}.brand h1{font-size:20px;letter-spacing:.2px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}.local-pill{border:1px solid #356c61;background:#142b28;color:#92ecd4;padding:8px 11px;border-radius:99px;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;border-radius:50%;background:#67e2bd;box-shadow:0 0 10px #67e2bd}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}.panel{background:linear-gradient(160deg,#171d2a,#111620);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.drop-panel{padding:22px}.section-title{font-size:15px;font-weight:750;margin:0 0 5px}.sub{font-size:12px;color:var(--muted);line-height:1.65;margin:0}.dropzone{margin-top:16px;min-height:176px;border:1.5px dashed #56627e;border-radius:16px;background:#171e2b;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;transition:.18s}.dropzone.drag{border-color:var(--accent2);background:#182b2b;transform:scale(1.01)}.upload-icon{width:48px;height:48px;border-radius:15px;background:#29324a;color:#b9c5ff;display:grid;place-items:center;font-size:24px;margin-bottom:10px}.dropzone strong{font-size:14px}.dropzone span{font-size:12px;color:var(--muted);margin-top:5px}.primary,.secondary,.danger-btn{border:0;border-radius:11px;padding:10px 15px;font-weight:700;font-size:13px;transition:transform .15s,filter .15s}.primary{background:linear-gradient(135deg,#a2adff,#7789f5);color:#12172a;margin-top:13px}.secondary{background:#283248;color:#e4e9ff;border:1px solid #3a4762}.danger-btn{background:#3a202a;color:#ffabb5;border:1px solid #683441}.primary:hover,.secondary:hover,.danger-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}.primary:disabled,.secondary:disabled{opacity:.45;cursor:not-allowed;transform:none}.privacy{padding:22px;display:flex;flex-direction:column;gap:12px}.privacy-head{display:flex;align-items:center;gap:10px}.shield{width:36px;height:36px;border-radius:12px;background:#15352e;color:#8ae6c8;display:grid;place-items:center;font-size:18px}.privacy h2{font-size:15px;margin:0}.privacy-list{display:grid;gap:9px}.privacy-item{display:flex;gap:9px;font-size:12px;line-height:1.55;color:#c5ccda}.check{color:#7ee0be;font-weight:900}.privacy-note{font-size:11px;line-height:1.6;color:#9eabc0;border-top:1px solid var(--line);padding-top:10px;margin:0}.library{padding:21px;margin-top:18px}.library-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.library-head h2{font-size:16px;margin:0}.count{font-size:11px;color:var(--muted);background:#242c3c;border:1px solid #354057;border-radius:99px;padding:5px 9px}.empty{border:1px dashed #364158;border-radius:14px;padding:26px 16px;text-align:center;color:var(--muted);font-size:13px}.empty .big{font-size:28px;margin-bottom:7px}.project-list{display:grid;gap:10px}.project{display:flex;align-items:center;gap:13px;padding:13px;border-radius:14px;background:#171e2b;border:1px solid #2e394e;min-width:0}.file-icon{width:42px;height:42px;border-radius:12px;background:#27334a;display:grid;place-items:center;color:#c0ccff;font-size:12px;font-weight:800;flex:none}.project-info{min-width:0;flex:1}.project-name{font-size:14px;font-weight:700;overflow-wrap:anywhere}.project-meta{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}.project-actions{display:flex;gap:7px;flex:none}.project-actions button{padding:8px 11px;font-size:12px}.status{min-height:20px;margin:12px 2px 0;font-size:12px;color:var(--muted)}.status.error{color:#ff9eaa}.status.success{color:#81e5c2}.foot{font-size:11px;color:#768299;text-align:center;margin:20px 0 0;line-height:1.6}.hidden{display:none!important}
+/* fullscreen runner */
+#runner{display:none;position:fixed;inset:0;z-index:9999;background:#000}#runner.active{display:block}#runner:fullscreen{width:100vw;height:100vh;background:#000}#runnerFrame{display:block;width:100%;height:100%;border:0;background:#fff}#runnerClose{position:absolute;z-index:2;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));width:42px;height:42px;border:1px solid #ffffff44;border-radius:13px;background:#101522d9;color:white;font-size:20px;backdrop-filter:blur(10px);opacity:.22;transition:opacity .2s}#runnerClose:hover,#runnerClose:focus{opacity:1}#runnerLoading{position:absolute;inset:0;display:grid;place-items:center;color:white;background:#0b0d13;font-size:14px;pointer-events:none}#runnerLoading.off{display:none}
+@media(max-width:760px){.app{width:min(100% - 22px,620px);padding-top:17px}.hero{grid-template-columns:1fr}.privacy{padding:17px}.drop-panel,.library{padding:17px}.top{margin-bottom:18px}.brand h1{font-size:18px}.local-pill{font-size:10px;padding:7px 9px}.project{align-items:flex-start}.project-actions{flex-direction:column}.project-actions button{min-width:72px}.dropzone{min-height:160px}}
+</style>
+</head>
+<body>
+<main class="app" id="app">
+  <header class="top">
+    <div class="brand"><div class="logo">&lt;/&gt;</div><div><h1>HTML Library</h1><p>ローカルHTMLランチャー</p></div></div>
+    <div class="local-pill"><i class="dot"></i> この端末だけに保存</div>
+  </header>
+
+  <section class="hero">
+    <div class="panel drop-panel">
+      <h2 class="section-title">ファイルをライブラリに追加</h2>
+      <p class="sub">HTMLファイル、または <b>index.html</b> を含むZIPを選択してね。画像・CSS・JSも使う場合はZIPにまとめてね。</p>
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="HTMLまたはZIPを選択">
+        <div class="upload-icon">⇧</div>
+        <strong>ここにドラッグ＆ドロップ</strong>
+        <span>または下のボタンからファイルを選択</span>
+        <button class="primary" id="pickBtn" type="button">ファイルを選択</button>
+        <input id="fileInput" type="file" accept=".html,.htm,.zip,text/html,application/zip,application/x-zip-compressed" hidden>
+      </div>
+      <div class="status" id="status" aria-live="polite">対応形式：.html / .htm / .zip</div>
+    </div>
+
+    <aside class="panel privacy">
+      <div class="privacy-head"><div class="shield">✓</div><div><h2>アップロードなし</h2><p class="sub">ファイルはブラウザ内に保存</p></div></div>
+      <div class="privacy-list">
+        <div class="privacy-item"><span class="check">✓</span><span>選んだファイルをサーバーへ送信しない</span></div>
+        <div class="privacy-item"><span class="check">✓</span><span>ライブラリはこのブラウザの IndexedDB に保存</span></div>
+        <div class="privacy-item"><span class="check">✓</span><span>実行ページはサンドボックス内で動作し、通常の通信をCSPで遮断</span></div>
+      </div>
+      <p class="privacy-note">注意：実行するHTMLは自分で内容を確認してね。通信を遮断しているため、外部CDN・オンラインAPIなどを必要とするページは正常に動かない場合があるよ。ブラウザのデータを消すとライブラリも消えるよ。</p>
+    </aside>
+  </section>
+
+  <section class="panel library">
+    <div class="library-head"><h2>マイライブラリ</h2><span class="count" id="count">0 件</span></div>
+    <div class="empty" id="empty"><div class="big">▱</div>まだファイルがないよ。HTMLかZIPを追加してみてね。</div>
+    <div class="project-list" id="projectList"></div>
+  </section>
+  <p class="foot">データはこのブラウザ内にのみ保存されるよ。別の端末・ブラウザとは共有されないよ。</p>
+</main>
+
+<div id="runner" aria-label="HTML実行画面">
+  <iframe id="runnerFrame" title="選択したHTML" sandbox="allow-scripts allow-pointer-lock" allow="fullscreen; gamepad" allowfullscreen referrerpolicy="no-referrer"></iframe>
+  <div id="runnerLoading">読み込み中…</div>
+  <button id="runnerClose" type="button" title="終了" aria-label="終了">×</button>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const DB_NAME = 'html-local-library-v1';
+  const DB_VERSION = 1;
+  const MAX_FILES = 2500;
+  const MAX_FILE_SIZE = 80 * 1024 * 1024;
+  const MAX_TOTAL_SIZE = 160 * 1024 * 1024;
+  const $ = (id) => document.getElementById(id);
+  const fileInput = $('fileInput');
+  const dropzone = $('dropzone');
+  const statusEl = $('status');
+  const projectList = $('projectList');
+  const emptyEl = $('empty');
+  const runner = $('runner');
+  const runnerFrame = $('runnerFrame');
+  const runnerLoading = $('runnerLoading');
+  let dbPromise;
+  let currentObjectUrls = [];
+  let wasFullscreen = false;
+  let importing = false;
+
+  function setStatus(message, type = '') {
+    statusEl.textContent = message;
+    statusEl.className = 'status' + (type ? ' ' + type : '');
+  }
+
+  function openDB() {
+    if (dbPromise) return dbPromise;
+    dbPromise = new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains('projects')) {
+          database.createObjectStore('projects', { keyPath: 'id' });
+        }
+        if (!database.objectStoreNames.contains('files')) {
+          const store = database.createObjectStore('files', { keyPath: 'key' });
+          store.createIndex('projectId', 'projectId', { unique: false });
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error('IndexedDBを開けなかったよ。'));
+      request.onblocked = () => reject(new Error('データベースが別のタブで使用中みたい。'));
+    });
+    return dbPromise;
+  }
+
+  function transactionDone(tx) {
+    return new Promise((resolve, reject) => {
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error || new Error('保存に失敗したよ。'));
+      tx.onabort = () => reject(tx.error || new Error('保存が中断されたよ。'));
+    });
+  }
+
+  async function saveProject(project, entries) {
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files'], 'readwrite');
+    tx.objectStore('projects').put(project);
+    const fileStore = tx.objectStore('files');
+    for (const entry of entries) {
+      fileStore.put({
+        key: project.id + '::' + entry.path,
+        projectId: project.id,
+        path: entry.path,
+        blob: entry.blob,
+        size: entry.size,
+        type: entry.type
+      });
+    }
+    await transactionDone(tx);
+  }
+
+  async function getProjects() {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const request = database.transaction('projects', 'readonly').objectStore('projects').getAll();
+      request.onsuccess = () => resolve((request.result || []).sort((a, b) => b.createdAt - a.createdAt));
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function getProjectFiles(projectId) {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const store = database.transaction('files', 'readonly').objectStore('files').index('projectId');
+      const request = store.getAll(IDBKeyRange.only(projectId));
+      request.onsuccess = () => resolve(request.result || []);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function deleteProject(projectId) {
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files'], 'readwrite');
+    tx.objectStore('projects').delete(projectId);
+    const index = tx.objectStore('files').index('projectId');
+    const request = index.openCursor(IDBKeyRange.only(projectId));
+    request.onsuccess = () => {
+      const cursor = request.result;
+      if (cursor) { cursor.delete(); cursor.continue(); }
+    };
+    await transactionDone(tx);
+  }
+
+  function makeId() {
+    if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'p-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function safePath(path) {
+    const parts = String(path).replace(/\\/g, '/').split('/');
+    const out = [];
+    for (const part of parts) {
+      if (!part || part === '.') continue;
+      if (part === '..') { if (out.length) out.pop(); continue; }
+      out.push(part);
+    }
+    return out.join('/');
+  }
+
+  function decodeZipName(bytes, utf8) {
+    try {
+      return new TextDecoder(utf8 ? 'utf-8' : 'shift_jis').decode(bytes);
+    } catch (_) {
+      return new TextDecoder('utf-8').decode(bytes);
+    }
+  }
+
+  async function inflateRaw(compressed) {
+    if (typeof DecompressionStream !== 'function') {
+      throw new Error('このブラウザはZIPの展開に対応していないみたい。最新版のSafari / Chrome / Edgeで試してね。');
+    }
+    let stream;
+    try { stream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream('deflate-raw')); }
+    catch (error) { throw new Error('ZIPの圧縮形式に対応していないよ：' + (error.message || error)); }
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+
+  async function readZip(arrayBuffer, onProgress) {
+    const bytes = new Uint8Array(arrayBuffer);
+    const view = new DataView(arrayBuffer);
+    const min = Math.max(0, bytes.length - 22 - 65535);
+    let eocd = -1;
+    for (let i = bytes.length - 22; i >= min; i--) {
+      if (view.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+    }
+    if (eocd < 0) throw new Error('ZIPの終端情報が見つからないよ。壊れたZIPかもしれない。');
+    const diskNo = view.getUint16(eocd + 4, true);
+    const centralDisk = view.getUint16(eocd + 6, true);
+    const entriesOnDisk = view.getUint16(eocd + 8, true);
+    const totalEntries = view.getUint16(eocd + 10, true);
+    const centralSize = view.getUint32(eocd + 12, true);
+    const centralOffset = view.getUint32(eocd + 16, true);
+    if (diskNo !== 0 || centralDisk !== 0 || entriesOnDisk !== totalEntries) throw new Error('分割ZIPには対応していないよ。');
+    if (totalEntries === 0xffff || centralOffset === 0xffffffff || centralSize === 0xffffffff) throw new Error('ZIP64形式にはまだ対応していないよ。');
+    if (totalEntries > MAX_FILES) throw new Error('ファイル数が多すぎるよ（上限 ' + MAX_FILES + ' 件）。');
+
+    const files = [];
+    let offset = centralOffset;
+    let totalSize = 0;
+    for (let i = 0; i < totalEntries; i++) {
+      if (offset + 46 > bytes.length || view.getUint32(offset, true) !== 0x02014b50) {
+        throw new Error('ZIPのファイル一覧を読み取れなかったよ。');
+      }
+      const flags = view.getUint16(offset + 8, true);
+      const method = view.getUint16(offset + 10, true);
+      const compressedSize = view.getUint32(offset + 20, true);
+      const uncompressedSize = view.getUint32(offset + 24, true);
+      const nameLength = view.getUint16(offset + 28, true);
+      const extraLength = view.getUint16(offset + 30, true);
+      const commentLength = view.getUint16(offset + 32, true);
+      const localOffset = view.getUint32(offset + 42, true);
+      const nameBytes = bytes.slice(offset + 46, offset + 46 + nameLength);
+      const originalPath = decodeZipName(nameBytes, !!(flags & 0x0800));
+      const path = safePath(originalPath);
+      offset += 46 + nameLength + extraLength + commentLength;
+      if (!path || originalPath.endsWith('/') || originalPath.endsWith('\\')) continue;
+      if (flags & 1) throw new Error('暗号化されたZIPには対応していないよ：' + path);
+      if (compressedSize === 0xffffffff || uncompressedSize === 0xffffffff || localOffset === 0xffffffff) {
+        throw new Error('ZIP64形式のファイルには対応していないよ：' + path);
+      }
+      if (uncompressedSize > MAX_FILE_SIZE) throw new Error('大きすぎるファイルが含まれているよ：' + path);
+      totalSize += uncompressedSize;
+      if (totalSize > MAX_TOTAL_SIZE) throw new Error('ZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_TOTAL_SIZE) + '）。');
+
+      if (localOffset + 30 > bytes.length || view.getUint32(localOffset, true) !== 0x04034b50) {
+        throw new Error('ZIP内のファイルデータを読めなかったよ：' + path);
+      }
+      const localNameLength = view.getUint16(localOffset + 26, true);
+      const localExtraLength = view.getUint16(localOffset + 28, true);
+      const dataStart = localOffset + 30 + localNameLength + localExtraLength;
+      const dataEnd = dataStart + compressedSize;
+      if (dataEnd > bytes.length) throw new Error('ファイルデータが途中で切れているよ：' + path);
+      const compressed = bytes.slice(dataStart, dataEnd);
+      let data;
+      if (method === 0) data = compressed;
+      else if (method === 8) data = await inflateRaw(compressed);
+      else throw new Error('未対応のZIP圧縮方式 (' + method + ')：' + path);
+      if (data.byteLength !== uncompressedSize) throw new Error('展開後のサイズが一致しないよ：' + path);
+      files.push({ path, data, size: data.byteLength, type: guessMime(path) });
+      if (onProgress) onProgress(i + 1, totalEntries);
+    }
+    return files;
+  }
+
+  function guessMime(path) {
+    const ext = (path.split('.').pop() || '').toLowerCase();
+    const map = {
+      html:'text/html', htm:'text/html', css:'text/css', js:'text/javascript', mjs:'text/javascript',
+      json:'application/json', txt:'text/plain', xml:'application/xml', svg:'image/svg+xml',
+      png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg', gif:'image/gif', webp:'image/webp', avif:'image/avif',
+      ico:'image/x-icon', bmp:'image/bmp', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', mp4:'video/mp4',
+      webm:'video/webm', pdf:'application/pdf', woff:'font/woff', woff2:'font/woff2', ttf:'font/ttf', otf:'font/otf',
+      wasm:'application/wasm', glb:'model/gltf-binary', gltf:'model/gltf+json', bin:'application/octet-stream'
+    };
+    return map[ext] || 'application/octet-stream';
+  }
+
+  async function importFile(file) {
+    if (importing) return;
+    importing = true;
+    $('pickBtn').disabled = true;
+    try {
+      const lower = file.name.toLowerCase();
+      let entries = [];
+      let entryPath = '';
+      let projectName = file.name.replace(/\.(html?|zip)$/i, '') || 'Untitled';
+      if (lower.endsWith('.html') || lower.endsWith('.htm') || file.type === 'text/html') {
+        if (file.size > MAX_FILE_SIZE) throw new Error('HTMLファイルが大きすぎるよ（上限 ' + formatBytes(MAX_FILE_SIZE) + '）。');
+        entryPath = safePath(file.name) || 'index.html';
+        entries = [{ path: entryPath, blob: file, size: file.size, type: 'text/html' }];
+      } else if (lower.endsWith('.zip') || file.type.includes('zip')) {
+        setStatus('ZIPを展開中…');
+        const extracted = await readZip(await file.arrayBuffer(), (n, total) => setStatus('ZIPを展開中… ' + n + ' / ' + total));
+        if (!extracted.length) throw new Error('ZIPの中にファイルが見つからなかったよ。');
+        const candidates = extracted.filter(item => /(^|\/)index\.html?$/i.test(item.path));
+        if (!candidates.length) throw new Error('ZIP内に index.html（または index.htm）が見つからないよ。');
+        candidates.sort((a, b) => a.path.split('/').length - b.path.split('/').length);
+        entryPath = candidates[0].path;
+        entries = extracted.map(item => ({
+          path: item.path,
+          blob: new Blob([item.data], { type: item.type }),
+          size: item.size,
+          type: item.type
+        }));
+      } else {
+        throw new Error('HTMLまたはZIPファイルを選択してね。');
+      }
+
+      const totalSize = entries.reduce((sum, item) => sum + item.size, 0);
+      const project = {
+        id: makeId(), name: projectName, originalName: file.name, entryPath,
+        createdAt: Date.now(), fileCount: entries.length, totalSize,
+        kind: lower.endsWith('.zip') ? 'ZIP' : 'HTML'
+      };
+      setStatus('端末内のライブラリに保存中…');
+      await saveProject(project, entries);
+      await renderLibrary();
+      setStatus('追加できたよ：' + project.name + '（' + entries.length + ' ファイル）', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(error && error.message ? error.message : '追加に失敗したよ。', 'error');
+    } finally {
+      importing = false;
+      $('pickBtn').disabled = false;
+      fileInput.value = '';
+    }
+  }
+
+  async function renderLibrary() {
+    const projects = await getProjects();
+    $('count').textContent = projects.length + ' 件';
+    emptyEl.classList.toggle('hidden', projects.length > 0);
+    projectList.innerHTML = '';
+    for (const project of projects) {
+      const row = document.createElement('article');
+      row.className = 'project';
+      const icon = document.createElement('div');
+      icon.className = 'file-icon';
+      icon.textContent = project.kind === 'ZIP' ? 'ZIP' : 'HTML';
+      const info = document.createElement('div');
+      info.className = 'project-info';
+      const name = document.createElement('div');
+      name.className = 'project-name';
+      name.textContent = project.name;
+      const meta = document.createElement('div');
+      meta.className = 'project-meta';
+      const date = new Date(project.createdAt).toLocaleString('ja-JP');
+      meta.textContent = project.entryPath + ' ・ ' + project.fileCount + ' ファイル ・ ' + formatBytes(project.totalSize) + ' ・ ' + date;
+      info.append(name, meta);
+      const actions = document.createElement('div');
+      actions.className = 'project-actions';
+      const run = document.createElement('button');
+      run.type = 'button'; run.className = 'primary'; run.textContent = '実行';
+      run.addEventListener('click', () => runProject(project));
+      const remove = document.createElement('button');
+      remove.type = 'button'; remove.className = 'danger-btn'; remove.textContent = '削除';
+      remove.addEventListener('click', async () => {
+        if (!confirm('「' + project.name + '」をライブラリから削除する？')) return;
+        try { await deleteProject(project.id); await renderLibrary(); setStatus('削除したよ。', 'success'); }
+        catch (error) { setStatus(error.message || '削除できなかったよ。', 'error'); }
+      });
+      actions.append(run, remove);
+      row.append(icon, info, actions);
+      projectList.append(row);
+    }
+  }
+
+  function isExternalReference(value) {
+    const v = String(value || '').trim();
+    return !v || v.startsWith('#') || /^(?:data:|blob:|https?:|file:|javascript:|mailto:|tel:|\/\/)/i.test(v);
+  }
+
+  function resolveLocalPath(fromPath, reference) {
+    const raw = String(reference || '').trim().replace(/^['"]|['"]$/g, '');
+    if (isExternalReference(raw)) return null;
+    const clean = raw.split('#')[0].split('?')[0];
+    if (!clean) return fromPath;
+    try {
+      const base = 'https://local.invalid/' + fromPath.split('/').slice(0, -1).join('/') + '/';
+      const url = new URL(clean, base);
+      if (url.origin !== 'https://local.invalid') return null;
+      return safePath(decodeURIComponent(url.pathname.replace(/^\//, '')));
+    } catch (_) { return null; }
+  }
+
+  async function replaceAsync(source, regex, replacer) {
+    const matches = [...source.matchAll(regex)];
+    if (!matches.length) return source;
+    let result = '';
+    let last = 0;
+    for (const match of matches) {
+      result += source.slice(last, match.index);
+      result += await replacer(match);
+      last = match.index + match[0].length;
+    }
+    return result + source.slice(last);
+  }
+
+  async function buildProjectDocument(project, fileRecords) {
+    const files = new Map(fileRecords.map(item => [safePath(item.path), item]));
+    const rawUrlCache = new Map();
+    const cssUrlCache = new Map();
+
+    const rememberUrl = (blob) => {
+      const url = URL.createObjectURL(blob);
+      currentObjectUrls.push(url);
+      return url;
+    };
+
+    async function assetUrl(path) {
+      const clean = safePath(path);
+      const record = files.get(clean);
+      if (!record) return null;
+      if (/\.css$/i.test(clean) || record.type === 'text/css') {
+        if (cssUrlCache.has(clean)) return cssUrlCache.get(clean);
+        const promise = (async () => {
+          const text = await record.blob.text();
+          const css = await rewriteCss(text, clean);
+          return rememberUrl(new Blob([css], { type: 'text/css;charset=utf-8' }));
+        })();
+        cssUrlCache.set(clean, promise);
+        return promise;
+      }
+      if (rawUrlCache.has(clean)) return rawUrlCache.get(clean);
+      const url = rememberUrl(record.blob);
+      rawUrlCache.set(clean, url);
+      return url;
+    }
+
+    async function rewriteCss(cssText, cssPath) {
+      let css = String(cssText);
+      css = await replaceAsync(css, /@import\s+(?!url\s*\()(["'])([^"']+)\1/gi, async match => {
+        const local = resolveLocalPath(cssPath, match[2]);
+        if (!local || !files.has(local)) return match[0];
+        const url = await assetUrl(local);
+        return url ? '@import url("' + url + '")' : match[0];
+      });
+      css = await replaceAsync(css, /url\(\s*(?:(["'])(.*?)\1|([^)]*?))\s*\)/gi, async match => {
+        const reference = (match[2] !== undefined ? match[2] : match[3] || '').trim();
+        if (isExternalReference(reference)) return match[0];
+        const local = resolveLocalPath(cssPath, reference);
+        if (!local || !files.has(local)) return 'url("data:,")';
+        const url = await assetUrl(local);
+        return url ? 'url("' + url + '")' : 'url("data:,")';
+      });
+      return css;
+    }
+
+    const entryRecord = files.get(safePath(project.entryPath));
+    if (!entryRecord) throw new Error('起動ファイルが見つからないよ。ライブラリに追加し直してね。');
+    let html = await entryRecord.blob.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    // 実行HTMLにネットワーク制限を追加。ローカルBlobとdata URLだけを許可する。
+    const csp = doc.createElement('meta');
+    csp.httpEquiv = 'Content-Security-Policy';
+    csp.content = "default-src 'none'; script-src 'unsafe-inline' blob: data:; style-src 'unsafe-inline' blob: data:; img-src blob: data:; media-src blob: data:; font-src blob: data:; connect-src 'none'; frame-src 'none'; child-src 'none'; object-src 'none'; form-action 'none'; base-uri 'none'; worker-src 'none'; manifest-src 'none'; navigate-to 'none'";
+    if (!doc.head) doc.documentElement.insertBefore(doc.createElement('head'), doc.body || null);
+    doc.head.insertBefore(csp, doc.head.firstChild);
+    doc.querySelectorAll('base').forEach(node => node.remove());
+
+    const attrNames = ['src', 'href', 'poster', 'data', 'xlink:href'];
+    for (const element of [...doc.querySelectorAll('*')]) {
+      for (const attr of attrNames) {
+        if (!element.hasAttribute(attr)) continue;
+        const value = element.getAttribute(attr);
+        if (isExternalReference(value)) continue;
+        const local = resolveLocalPath(project.entryPath, value);
+        if (!local) continue;
+        if (!files.has(local)) {
+          // ページ内アンカーや仮想パスはそのまま。存在しない外部ファイルだけ無効化。
+          if (/\.(?:css|js|mjs|png|jpe?g|gif|svg|webp|woff2?|ttf|otf|mp3|mp4|webm|json|wasm)(?:$|[?#])/i.test(value)) {
+            element.setAttribute(attr, 'data:,');
+          }
+          continue;
+        }
+        const url = await assetUrl(local);
+        if (url) element.setAttribute(attr, url);
+      }
+      if (element.hasAttribute('srcset')) {
+        const srcset = element.getAttribute('srcset');
+        const pieces = srcset.split(',').map(s => s.trim()).filter(Boolean);
+        const rewritten = [];
+        for (const piece of pieces) {
+          const bits = piece.split(/\s+/);
+          const local = resolveLocalPath(project.entryPath, bits[0]);
+          if (local && files.has(local)) {
+            const url = await assetUrl(local);
+            if (url) bits[0] = url;
+          }
+          rewritten.push(bits.join(' '));
+        }
+        element.setAttribute('srcset', rewritten.join(', '));
+      }
+      if (element.hasAttribute('style')) {
+        element.setAttribute('style', await rewriteCss(element.getAttribute('style'), project.entryPath));
+      }
+      if (element.tagName.toLowerCase() === 'style') {
+        element.textContent = await rewriteCss(element.textContent, project.entryPath);
+      }
+    }
+
+    if (!doc.querySelector('meta[name="viewport"]')) {
+      const viewport = doc.createElement('meta');
+      viewport.name = 'viewport'; viewport.content = 'width=device-width,initial-scale=1,viewport-fit=cover';
+      doc.head.appendChild(viewport);
+    }
+    const guard = doc.createElement('script');
+    guard.textContent = "(()=>{try{window.open=()=>null; if(navigator.sendBeacon) navigator.sendBeacon=()=>false; window.fetch=()=>Promise.reject(new TypeError('Network is disabled in this local runner')); const X=window.XMLHttpRequest;if(X){X.prototype.open=function(){throw new Error('Network is disabled in this local runner')};} window.WebSocket=function(){throw new Error('Network is disabled in this local runner')};window.EventSource=function(){throw new Error('Network is disabled in this local runner')};}catch(e){}})();";
+    doc.head.insertBefore(guard, csp.nextSibling);
+    return '<!doctype html>\n' + doc.documentElement.outerHTML;
+  }
+
+  async function runProject(project) {
+    closeRunner(false);
+    runner.classList.add('active');
+    runnerLoading.classList.remove('off');
+    wasFullscreen = false;
+    // フルスクリーン要求はユーザーのタップ直後に呼び出す。
+    if (typeof runner.requestFullscreen === 'function') {
+      try {
+        const request = runner.requestFullscreen({ navigationUI: 'hide' });
+        if (request && typeof request.then === 'function') {
+          request.then(() => { wasFullscreen = true; }).catch(() => {
+            setStatus('このブラウザでは完全な全画面表示が許可されなかったよ。', 'error');
+          });
+        }
+      } catch (_) {
+        setStatus('このブラウザでは完全な全画面表示が使えないよ。', 'error');
+      }
+    } else {
+      setStatus('このブラウザは全画面APIに非対応。実行画面を可能な範囲で最大化するよ。', 'error');
+    }
+
+    try {
+      currentObjectUrls.forEach(url => URL.revokeObjectURL(url));
+      currentObjectUrls = [];
+      const records = await getProjectFiles(project.id);
+      const srcdoc = await buildProjectDocument(project, records);
+      runnerFrame.srcdoc = srcdoc;
+      runnerFrame.onload = () => runnerLoading.classList.add('off');
+    } catch (error) {
+      console.error(error);
+      runnerLoading.textContent = '起動できなかったよ：' + (error.message || error);
+      setStatus(error.message || '実行に失敗したよ。', 'error');
+    }
+  }
+
+  function closeRunner(leaveFullscreen = true) {
+    runner.classList.remove('active');
+    runnerLoading.classList.remove('off');
+    runnerLoading.textContent = '読み込み中…';
+    runnerFrame.srcdoc = '';
+    currentObjectUrls.forEach(url => URL.revokeObjectURL(url));
+    currentObjectUrls = [];
+    if (leaveFullscreen && document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+    wasFullscreen = false;
+  }
+
+  $('runnerClose').addEventListener('click', () => closeRunner(true));
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && wasFullscreen && runner.classList.contains('active')) {
+      closeRunner(false);
+    }
+  });
+
+  $('pickBtn').addEventListener('click', (event) => { event.stopPropagation(); fileInput.click(); });
+  dropzone.addEventListener('click', (event) => {
+    if (event.target === $('pickBtn')) return;
+    fileInput.click();
+  });
+  dropzone.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); fileInput.click(); }
+  });
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (file) importFile(file);
+  });
+  ['dragenter', 'dragover'].forEach(type => dropzone.addEventListener(type, event => {
+    event.preventDefault(); event.stopPropagation(); dropzone.classList.add('drag');
+  }));
+  ['dragleave', 'drop'].forEach(type => dropzone.addEventListener(type, event => {
+    event.preventDefault(); event.stopPropagation(); dropzone.classList.remove('drag');
+  }));
+  dropzone.addEventListener('drop', event => {
+    const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file) importFile(file);
+  });
+  document.addEventListener('dragover', event => event.preventDefault());
+  document.addEventListener('drop', event => event.preventDefault());
+
+  (async () => {
+    try {
+      await openDB();
+      await renderLibrary();
+    } catch (error) {
+      setStatus('ライブラリを開けなかったよ：' + (error.message || error), 'error');
+    }
+  })();
+})();
+</script>
+</body>
+</html>
