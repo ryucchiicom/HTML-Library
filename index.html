@@ -1,254 +1,1170 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Fall Guys Rounds Lab</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" href="./index.png">
+<link rel="apple-touch-icon" href="./index.png">
+<title>HTML Library</title>
 <style>
-:root{--bg:#101629;--panel:#1c2945;--panel2:#263858;--cyan:#5ee7ff;--pink:#ff75bd;--yellow:#ffd66b;--white:#f4f7ff}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--white);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;touch-action:none}
-#game{position:fixed;inset:0;display:block}#hud{position:fixed;inset:0;pointer-events:none;display:none}
-.topbar{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-.pill,.panel{background:#111b2ddd;border:1px solid #ffffff24;border-radius:14px;padding:10px 14px;backdrop-filter:blur(12px);box-shadow:0 8px 28px #0004}
-.pill{font-weight:800}.small{font-size:12px;opacity:.8}.controls{position:absolute;bottom:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:end}
-#stickArea{width:142px;height:142px;border-radius:50%;background:#d8efff22;border:2px solid #ffffff66;position:relative;pointer-events:auto;touch-action:none}
-#stick{width:58px;height:58px;border-radius:50%;background:#dff8ffb8;position:absolute;left:40px;top:40px;box-shadow:0 4px 16px #0005}
-.action{width:76px;height:76px;border-radius:50%;border:2px solid #ffffff88;color:#fff;font-size:14px;font-weight:900;background:#ff75bdc9;pointer-events:auto;touch-action:none;box-shadow:0 5px 18px #0005}
-.action.jump{background:#39bcebd9;width:88px;height:88px}.action:active{transform:scale(.94)}
-#actions{display:flex;gap:12px;align-items:end}#menu,#editorPanel,#roundEnd{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0c1426ee,#182748dd);z-index:5}
-.menuCard{width:min(520px,92vw);padding:28px;border:1px solid #ffffff24;border-radius:28px;background:linear-gradient(145deg,#243758f2,#121d35f2);box-shadow:0 25px 80px #0008;text-align:center}
-.logo{font-size:clamp(30px,7vw,54px);font-weight:1000;letter-spacing:-2px;line-height:1.05;margin:4px 0 8px}.logo span{color:var(--cyan)}.sub{opacity:.75;margin:0 0 24px}
-button,.fileBtn{border:0;border-radius:14px;padding:13px 18px;font:800 15px system-ui;cursor:pointer;color:#122039;background:var(--cyan);box-shadow:0 5px 0 #2496b4;touch-action:manipulation}
-button.secondary,.fileBtn.secondary{background:#344a6c;color:white;box-shadow:0 5px 0 #1a2b46}
-.menuBtns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.menuBtns button{font-size:19px;padding:20px}
-.note{font-size:12px;opacity:.65;line-height:1.6;margin-top:18px}
-#editorPanel{display:none;align-items:stretch;justify-content:flex-start;background:#0d1628cc;pointer-events:none}
-.sidebar{pointer-events:auto;width:min(310px,88vw);height:100%;overflow:auto;background:#15233cfa;border-right:1px solid #ffffff22;padding:14px;display:flex;flex-direction:column;gap:10px}
-.sidebar h2{margin:4px 0 0;font-size:20px}.sidebar p{font-size:12px;opacity:.72;margin:0;line-height:1.5}
-.toolgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.toolgrid button{padding:10px 6px;font-size:12px;box-shadow:none;background:#2b4265;color:white;border:1px solid #ffffff22}.toolgrid button.active{background:var(--cyan);color:#102039}
-.row{display:flex;gap:7px;align-items:center}.row>*{min-width:0;flex:1}.sidebar input,.sidebar select{width:100%;padding:10px;border:1px solid #ffffff30;border-radius:10px;background:#0d1830;color:white}
-.sidebar .wide{width:100%}#editorHint{position:absolute;left:calc(min(310px,88vw) + 14px);top:14px;background:#101b30d9;border-radius:12px;padding:10px 12px;font-size:12px;pointer-events:none}
-#roundEnd{display:none;background:#0b1425d9}.endCard{width:min(460px,92vw);padding:26px;border-radius:24px;background:#1a2b49;border:1px solid #ffffff2b;text-align:center}
-#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#0b1425ed;border:1px solid #ffffff33;padding:10px 15px;border-radius:12px;z-index:20;display:none;font-size:13px}
-#fileInput{display:none}
-@media(max-width:600px){.sidebar{width:min(285px,84vw)}#editorHint{left:calc(min(285px,84vw) + 10px);right:8px;font-size:11px}.topbar{top:8px;left:8px;right:8px}.pill{padding:8px 10px;font-size:12px}#stickArea{width:120px;height:120px}#stick{left:31px;top:31px}.action{width:65px;height:65px}.action.jump{width:76px;height:76px}}
+:root{color-scheme:dark;--bg:#0b0d13;--panel:#141823;--panel2:#1b2130;--line:#2b3446;--text:#f3f5fb;--muted:#9aa5b8;--accent:#8b9cff;--accent2:#6de0c0;--danger:#ff7888;--shadow:0 18px 55px #0007}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:linear-gradient(135deg,#54e5e7 0%,#08a9f5 22%,#0876f5 48%,#2444ed 72%,#9639ed 100%);background-attachment:fixed;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.app{width:min(1100px,100% - 32px);margin:0 auto;padding:28px 0 46px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;flex:none;display:block;object-fit:cover;border-radius:14px;box-shadow:0 8px 24px #082f9b55}.brand h1{font-size:20px;letter-spacing:.2px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}.local-pill{border:1px solid #356c61;background:#142b28;color:#92ecd4;padding:8px 11px;border-radius:99px;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;border-radius:50%;background:#67e2bd;box-shadow:0 0 10px #67e2bd}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}.panel{background:linear-gradient(155deg,#101a31eF,#101629eF);backdrop-filter:blur(18px) saturate(1.25);-webkit-backdrop-filter:blur(18px) saturate(1.25);border:1px solid #ffffff30;border-radius:20px;box-shadow:0 18px 55px #062a7655}.drop-panel{padding:22px}.section-title{font-size:15px;font-weight:750;margin:0 0 5px}.sub{font-size:12px;color:var(--muted);line-height:1.65;margin:0}.dropzone{margin-top:16px;min-height:176px;border:1.5px dashed #56627e;border-radius:16px;background:#171e2b;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;transition:.18s}.dropzone.drag{border-color:var(--accent2);background:#182b2b;transform:scale(1.01)}.upload-icon{width:48px;height:48px;border-radius:15px;background:#29324a;color:#b9c5ff;display:grid;place-items:center;font-size:24px;margin-bottom:10px}.dropzone strong{font-size:14px}.dropzone span{font-size:12px;color:var(--muted);margin-top:5px}.primary,.secondary,.danger-btn{border:0;border-radius:11px;padding:10px 15px;font-weight:700;font-size:13px;transition:transform .15s,filter .15s}.primary{background:linear-gradient(135deg,#a2adff,#7789f5);color:#12172a;margin-top:13px}.secondary{background:#283248;color:#e4e9ff;border:1px solid #3a4762}.danger-btn{background:#3a202a;color:#ffabb5;border:1px solid #683441}.primary:hover,.secondary:hover,.danger-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}.primary:disabled,.secondary:disabled{opacity:.45;cursor:not-allowed;transform:none}.privacy{padding:22px;display:flex;flex-direction:column;gap:12px}.privacy-head{display:flex;align-items:center;gap:10px}.shield{width:36px;height:36px;border-radius:12px;background:#15352e;color:#8ae6c8;display:grid;place-items:center;font-size:18px}.privacy h2{font-size:15px;margin:0}.privacy-list{display:grid;gap:9px}.privacy-item{display:flex;gap:9px;font-size:12px;line-height:1.55;color:#c5ccda}.check{color:#7ee0be;font-weight:900}.privacy-note{font-size:11px;line-height:1.6;color:#9eabc0;border-top:1px solid var(--line);padding-top:10px;margin:0}.library{padding:21px;margin-top:18px}.library-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.library-head h2{font-size:16px;margin:0}.count{font-size:11px;color:var(--muted);background:#242c3c;border:1px solid #354057;border-radius:99px;padding:5px 9px}.empty{border:1px dashed #364158;border-radius:14px;padding:26px 16px;text-align:center;color:var(--muted);font-size:13px}.empty .big{font-size:28px;margin-bottom:7px}.project-list{display:grid;gap:10px}.project{display:flex;align-items:center;gap:13px;padding:13px;border-radius:14px;background:#171e2b;border:1px solid #2e394e;min-width:0}.file-icon{width:42px;height:42px;border-radius:12px;background:#27334a;display:grid;place-items:center;color:#c0ccff;font-size:12px;font-weight:800;flex:none}.project-info{min-width:0;flex:1}.project-name-btn{display:inline-block;max-width:100%;padding:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:14px;font-weight:750;text-align:left;overflow-wrap:anywhere;text-decoration:underline;text-decoration-color:#68758f;text-decoration-thickness:1px;text-underline-offset:4px;cursor:text}.project-name-btn:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:3px}.rename-input{width:min(100%,340px);padding:7px 9px;border:1px solid var(--accent);border-radius:8px;background:#0e1420;color:var(--text);font:inherit;font-size:14px;outline:none}.project-meta{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}.project-actions{display:flex;gap:7px;flex:none;position:relative;align-items:center}.project-actions>button{padding:8px 11px;font-size:12px;white-space:nowrap}.more-menu{position:absolute;z-index:30;right:0;top:calc(100% + 9px);width:190px;padding:6px;border:1px solid #3a4762;border-radius:13px;background:#171e2b;box-shadow:0 14px 35px #0009;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-7px) scale(.98);transform-origin:top right;transition:opacity .17s ease,transform .17s ease,visibility .17s}.more-menu.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}.more-menu.up{top:auto;bottom:calc(100% + 9px);transform:translateY(7px) scale(.98);transform-origin:bottom right}.more-menu.up.open{transform:translateY(0) scale(1)}.menu-item{display:block;width:100%;padding:10px 11px;border:0;border-radius:8px;background:transparent;color:#e7ebf7;text-align:left;font-size:12px;font-weight:650}.menu-item:hover,.menu-item:focus-visible{background:#29334a;outline:none}.menu-item.danger{color:#ffabb5}.project-list{overflow:visible}.status{min-height:20px;margin:12px 2px 0;font-size:12px;color:var(--muted)}.status.error{color:#ff9eaa}.status.success{color:#81e5c2}.foot{font-size:11px;color:#768299;text-align:center;margin:20px 0 0;line-height:1.6}.hidden{display:none!important}
+/* fullscreen runner */
+#runner{display:none;position:fixed;inset:0;z-index:9999;background:#000}#runner.active{display:block}#runner:fullscreen{width:100vw;height:100vh;background:#000}#runnerFrame{display:block;width:100%;height:100%;border:0;background:#fff}#runnerLoading{position:absolute;inset:0;display:grid;place-items:center;color:white;background:#0b0d13;font-size:14px;pointer-events:none}#runnerLoading.off{display:none}
+
+/* backup controls + privacy dialog */
+.hero{grid-template-columns:1fr}
+.local-pill{font:inherit;cursor:pointer;transition:filter .15s,transform .15s}.local-pill:hover{filter:brightness(1.12);transform:translateY(-1px)}.local-pill span{font-size:13px;opacity:.8}
+.library-head{align-items:flex-start;flex-wrap:wrap}.library-title{display:flex;align-items:center;gap:10px;min-height:38px}.library-tools{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap}.library-tools button{margin:0;padding:9px 11px;font-size:11px}
+.modal-backdrop[hidden]{display:none!important}.modal-backdrop{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px;background:#050811bb;backdrop-filter:blur(7px);opacity:0;transition:opacity .2s ease}.modal-backdrop:not([hidden]){opacity:1}.privacy-modal{width:min(100%,460px);max-height:min(86vh,680px);overflow:auto;border:1px solid #3b4760;border-radius:20px;background:linear-gradient(155deg,#1b2333,#111722);box-shadow:0 24px 80px #000b;padding:20px;transform:translateY(10px) scale(.985);animation:modalIn .22s ease forwards}@keyframes modalIn{to{transform:translateY(0) scale(1)}}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.modal-head h2{font-size:17px;margin:0}.modal-close{width:34px;height:34px;border:1px solid #3a4762;border-radius:10px;background:#242e42;color:#eaf0ff;font-size:22px;line-height:1}.modal-content{display:grid;gap:13px;margin-top:16px}.modal-lead{font-size:13px;line-height:1.7;margin:0;color:#dce4f5}.modal-check{color:#7ee0be;font-weight:900;margin-right:5px}.modal-point{display:grid;gap:3px;padding:11px 12px;border:1px solid #2e394f;border-radius:12px;background:#171f2d}.modal-point b{font-size:12px;color:#b9c7ff}.modal-point span{font-size:12px;line-height:1.6;color:#c3ccdc}.modal-warning{font-size:11px;line-height:1.7;color:#a2aec2;margin:0;border-top:1px solid #2e394f;padding-top:12px}.modal-ok{width:100%;margin-top:16px}
+@media(max-width:760px){.library-head{align-items:stretch}.library-tools{justify-content:flex-start}.library-tools button{flex:1 1 calc(50% - 7px)}.library-title{justify-content:space-between}.privacy-modal{padding:17px}}
+
+@media(max-width:760px){.app{width:min(100% - 22px,620px);padding-top:17px}.hero{grid-template-columns:1fr}.privacy{padding:17px}.drop-panel,.library{padding:17px}.top{margin-bottom:18px}.brand h1{font-size:18px}.logo{width:44px;height:44px}.local-pill{font-size:10px;padding:7px 9px}.project{align-items:flex-start}.project-actions{flex-direction:row}.project-actions>button{min-width:0;padding:8px 10px}.more-menu{width:178px}.dropzone{min-height:160px}}
 </style>
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","cannon-es":"https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"}}
-</script>
 </head>
 <body>
-<canvas id="game"></canvas>
-<div id="menu"><div class="menuCard"><div class="logo"><span>FALL</span> GUYS<br>ROUNDS LAB</div><p class="sub">自作ステージで遊べる3Dラウンドエディタ</p><div class="menuBtns"><button id="playBtn">プレイ</button><button id="editBtn" class="secondary">エディタ</button></div><p class="note">32人（プレイヤー1人＋BOT31人）／予選3ラウンド＋ファイナル<br>ステージはエディタで作成して .fgr に書き出せるよ</p></div></div>
-<div id="hud"><div class="topbar"><div class="pill"><span id="roundLabel">待機中</span><div class="small" id="roundSub">ROUND 1 / 4</div></div><div class="pill" id="playersLabel">残り 32 / 32</div><div class="pill" id="timerLabel">00:00</div></div><div class="controls"><div id="stickArea"><div id="stick"></div></div><div id="actions"><button class="action" id="diveBtn">ダイブ</button><button class="action jump" id="jumpBtn">ジャンプ</button></div></div></div>
-<div id="editorPanel"><div class="sidebar"><h2>ステージエディタ</h2><p>パーツを選んで、3D画面をタップ／クリックすると配置。配置後はドラッグで移動、選択して削除もできる。</p>
-<div><b>配置するパーツ</b><div class="toolgrid" id="tools"></div></div>
-<div><b>選択中パーツ</b><div class="row"><button class="secondary" id="deleteBtn">削除</button><button class="secondary" id="rotateBtn">90°回転</button></div></div>
-<div><label class="small">ステージ名</label><input id="stageName" value="ぼくのステージ"></div>
-<div class="row"><button id="testBtn">テストプレイ</button><button class="secondary" id="backMenuBtn">メニュー</button></div>
-<div class="row"><button id="exportBtn">.fgr書き出し</button><button class="secondary" id="importBtn">読み込み</button></div>
-<div class="row"><button class="secondary" id="clearBtn">全消去</button><button class="secondary" id="sampleBtn">サンプル配置</button></div>
-<p>操作：PCはWASD＋Space＋Shift。スマホは左スティック、右上ダイブ、右下ジャンプ。エディタは床・足場・スライム・セーブポイント・ゴールなどを配置できる。</p>
-</div><div id="editorHint">配置モード：3D画面をタップして配置</div></div>
-<div id="roundEnd"><div class="endCard"><h1 id="endTitle">ラウンド終了</h1><p id="endText"></p><button id="continueBtn">次へ</button><button id="endMenuBtn" class="secondary">メニューへ</button></div></div>
-<div id="toast"></div><input type="file" id="fileInput" accept=".fgr,.json">
-<script type="module">
-import * as THREE from 'three';
-import * as CANNON from 'cannon-es';
+<main class="app" id="app">
+  <header class="top">
+    <div class="brand"><img class="logo" src="./index.png" alt="HTML Library アイコン"><div><h1>HTML Library</h1><p>ローカルHTMLランチャー</p></div></div>
+    <button class="local-pill" id="privacyInfoBtn" type="button" aria-haspopup="dialog" aria-expanded="false"><i class="dot"></i> この端末だけに保存 <span aria-hidden="true">ⓘ</span></button>
+  </header>
 
-const $=id=>document.getElementById(id);
-const canvas=$('game');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x9adcf2);scene.fog=new THREE.Fog(0x9adcf2,45,110);
-const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,250);
-scene.add(new THREE.HemisphereLight(0xe8f8ff,0x58708a,2));
-const sun=new THREE.DirectionalLight(0xffffff,2.1);sun.position.set(-15,28,18);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
-const world=new CANNON.World({gravity:new CANNON.Vec3(0,-22,0)});world.broadphase=new CANNON.SAPBroadphase(world);world.allowSleep=true;world.defaultContactMaterial.friction=.35;world.defaultContactMaterial.restitution=.02;
-const matGround=new CANNON.Material('ground'),matPlayer=new CANNON.Material('player');
-world.addContactMaterial(new CANNON.ContactMaterial(matPlayer,matGround,{friction:.25,restitution:.0}));
-const root=new THREE.Group();scene.add(root);
-const floorMat=new THREE.MeshStandardMaterial({color:0x72bd72,roughness:.9});
-const mats={platform:0x55c8d8,checkpoint:0xffd66b,slime:0x72f06a,goal:0xffd447,wall:0x899bb4,bumper:0xff78b8,spinner:0xff965e,bridge:0x8e9eea};
-const partDefs={
- floor:{label:'床',size:[18,1,30],color:0x72bd72,shape:'box'},
- platform:{label:'足場',size:[5,.6,5],color:mats.platform,shape:'box'},
- checkpoint:{label:'セーブポイント',size:[4,.25,2],color:mats.checkpoint,shape:'box'},
- slime:{label:'スライム',size:[8,.25,8],color:mats.slime,shape:'box'},
- goal:{label:'ゴール',size:[7,3,.6],color:mats.goal,shape:'goal'},
- wall:{label:'壁',size:[5,3,.5],color:mats.wall,shape:'box'},
- bumper:{label:'バンパー',size:[1.6,1.6,1.6],color:mats.bumper,shape:'sphere'},
- spinner:{label:'回転バー',size:[7,.35,.35],color:mats.spinner,shape:'box'},
- bridge:{label:'細い足場',size:[2,.45,8],color:mats.bridge,shape:'box'}
-};
-let savedStages=[];try{savedStages=JSON.parse(localStorage.getItem('fgr_library')||'[]')}catch{savedStages=[]}
-let objects=[],selected=null,mode='menu',editorTool='platform',roundIndex=0,rounds=[],alive=[],bots=[],player=null,roundStart=0,roundDuration=120,finished=false,checkpoint={x:0,y:2,z:10},keys={},stick={x:0,y:0},jumpQueued=false,diveQueued=false,editorDragging=null,lastPointer=null;
-const clock=new THREE.Clock();
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',2200)}
-function v3(a){return new CANNON.Vec3(a[0],a[1],a[2])}
-function meshFor(def){let geo;if(def.shape==='sphere')geo=new THREE.SphereGeometry(.8,24,16);else geo=new THREE.BoxGeometry(...def.size);let m=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:def.color,roughness:.65,metalness:.03}));m.castShadow=true;m.receiveShadow=true;return m}
-function makePart(type,pos,rot=0,id=null){
- const def=partDefs[type];if(!def)return null;
- const mesh=meshFor(def);mesh.position.set(...pos);mesh.rotation.y=rot;mesh.userData.partId=id||crypto.randomUUID();mesh.userData.type=type;root.add(mesh);
- const body=new CANNON.Body({mass:0,material:matGround,type:CANNON.Body.STATIC,position:v3(pos)});
- if(def.shape==='sphere')body.addShape(new CANNON.Sphere(.8));
- else body.addShape(new CANNON.Box(new CANNON.Vec3(def.size[0]/2,def.size[1]/2,def.size[2]/2)));
- body.quaternion.setFromEuler(0,rot,0);world.addBody(body);
- const item={id:mesh.userData.partId,type,pos:[...pos],rot,mesh,body};objects.push(item);return item;
-}
-function clearParts(){for(const o of objects){root.remove(o.mesh);world.removeBody(o.body)}objects=[];selected=null}
-function serialize(){return {format:'FallGuysRounds',version:1,name:$('stageName').value||'Untitled',createdAt:new Date().toISOString(),parts:objects.map(o=>({type:o.type,pos:o.pos,rot:o.rot}))}}
-function loadStage(data){if(!data||data.format!=='FallGuysRounds'||!Array.isArray(data.parts))throw Error('これは対応している .fgr ファイルではないみたい');clearParts();$('stageName').value=data.name||'読み込んだステージ';for(const p of data.parts){if(partDefs[p.type])makePart(p.type,p.pos||[0,1,0],p.rot||0)}}
-function exportStage(){const current=serialize();rememberStage(current);const blob=new Blob([JSON.stringify(current,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=($('stageName').value||'stage').replace(/[\\/:*?"<>|]/g,'_')+'.fgr';a.click();URL.revokeObjectURL(a.href);toast('.fgrを書き出したよ')}
-function addEnvironment(){const grid=new THREE.GridHelper(120,60,0xffffff,0xffffff);grid.position.y=-.01;grid.material.opacity=.18;grid.material.transparent=true;scene.add(grid)}
-addEnvironment();
-function createPlayer(isBot=false,index=0){
- const group=new THREE.Group();const bodyMesh=new THREE.Mesh(new THREE.CapsuleGeometry(.48,.85,6,12),new THREE.MeshStandardMaterial({color:isBot?new THREE.Color().setHSL((index*.137)%1,.75,.58):0x27bde8,roughness:.5}));bodyMesh.castShadow=true;bodyMesh.position.y=.95;group.add(bodyMesh);
- const eyeMat=new THREE.MeshStandardMaterial({color:0x17243b});for(let s of [-1,1]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.075,10,8),eyeMat);eye.position.set(s*.16,1.12,-.42);group.add(eye)}
- root.add(group);
- const body=new CANNON.Body({mass:1,material:matPlayer,position:new CANNON.Vec3(0,2,0),fixedRotation:true,linearDamping:.18,allowSleep:false});
- body.addShape(new CANNON.Sphere(.43),new CANNON.Vec3(0,.43,0));body.addShape(new CANNON.Sphere(.43),new CANNON.Vec3(0,1.12,0));body.addShape(new CANNON.Cylinder(.43,.43,.28,12),new CANNON.Vec3(0,.78,0));
- body.updateMassProperties();world.addBody(body);
- return {group,body,isBot,index,alive:true,finished:false,checkpoint:{x:0,y:2,z:10},dive:0,stun:0,grounded:false,aiSeed:index*19.13,respawn:0};
-}
-function disposeActors(){for(const a of [player,...bots].filter(Boolean)){root.remove(a.group);world.removeBody(a.body)}player=null;bots=[]}
-function groundForTest(){makePart('floor',[0,-.55,0]);}
-function builtInStage(kind){
- clearParts();
- if(kind==='Sprint'){
-  makePart('floor',[0,-.55,0]);for(let i=0;i<5;i++)makePart('platform',[(i%2?3:-3),.2+i*.12,-8-i*7]);makePart('bumper',[0,1,-20]);makePart('spinner',[0,1.7,-31],.3);makePart('goal',[0,1,-43]);
- }else if(kind==='Slime Climb'){
-  makePart('floor',[0,-.55,4],[0]);for(let i=0;i<7;i++)makePart('platform',[(i%2?3:-3),i*1.1,-5-i*5],i%2?.12:-.12);makePart('wall',[0,3,-19]);makePart('checkpoint',[0,8,-29]);makePart('goal',[0,9,-39]);
- }else if(kind==='Hex Run'){
-  makePart('floor',[0,-.55,0]);for(let z=0;z<5;z++)for(let x=-2;x<=2;x++)makePart('platform',[x*3,.1-z*.06,-8-z*5]);makePart('slime',[0,-1,-24]);makePart('goal',[0,1,-33]);
- }else if(kind==='Final'){
-  makePart('floor',[0,-.55,0]);for(let i=0;i<8;i++)makePart('platform',[Math.sin(i)*4,.15,-7-i*4],i*.25);makePart('spinner',[0,1.7,-19],.6);makePart('checkpoint',[0,.2,-27]);makePart('goal',[0,1,-38]);
- }else {makePart('floor',[0,-.55,0]);makePart('goal',[0,1,-30])}
-}
-function rememberStage(data){
- if(!data||!Array.isArray(data.parts))return;
- savedStages=savedStages.filter(x=>x.name!==data.name);savedStages.push(data);
- try{localStorage.setItem('fgr_library',JSON.stringify(savedStages))}catch{}
-}
-function makeRoundSet(){
- const q=['Sprint','Slime Climb','Hex Run',...savedStages.map(data=>({name:data.name,data}))];rounds=[];
- for(let i=0;i<3;i++){const pick=q[Math.floor(Math.random()*q.length)];rounds.push(typeof pick==='string'?{name:pick,final:false}:{name:pick.name,data:pick.data,final:false})}
- rounds.push({name:'Final',final:true});
- return rounds;
-}
-function startMatch(){
- mode='play';$('menu').style.display='none';$('editorPanel').style.display='none';$('hud').style.display='block';$('roundEnd').style.display='none';
- disposeActors();rounds=makeRoundSet();roundIndex=0;startRound();
-}
-function startRound(){
- finished=false;disposeActors();
- const r=rounds[roundIndex];
- if(r.data){clearParts();loadStage(r.data)}else builtInStage(r.name);
- player=createPlayer(false);player.body.position.set(0,2,10);player.group.position.set(0,2,10);
- for(let i=0;i<31;i++){let b=createPlayer(true,i);b.body.position.set((Math.random()-.5)*10,2,12+Math.random()*5);b.group.position.set(b.body.position.x,2,b.body.position.z);bots.push(b)}
- alive=[player,...bots];roundStart=performance.now();roundDuration=r.final?150:100;
- $('roundLabel').textContent=r.name;$('roundSub').textContent=`ROUND ${roundIndex+1} / 4${r.final?' ・ FINAL':''}`;$('playersLabel').textContent='残り 32 / 32';
- camera.position.set(0,7,18);camera.lookAt(0,1,0);
-}
-function endRound(won){
- if(finished)return;finished=true;$('roundEnd').style.display='flex';$('endTitle').textContent=won?'QUALIFIED!':'ELIMINATED';$('endText').textContent=won?(roundIndex===3?'ファイナルを突破！優勝！':`${roundIndex+1}ラウンド目を突破した！`):'今回はここまで。テストプレイなら何度でもやり直せるよ。';
- $('continueBtn').textContent=roundIndex===3?'もう一度プレイ':'次のラウンド';
-}
-function nextRound(){if(!finished)return;if(!player?.alive){startMatch();return}if(roundIndex>=3){startMatch();return}roundIndex++;startRound();$('roundEnd').style.display='none'}
-function removeActor(a){if(!a.alive)return;a.alive=false;world.removeBody(a.body);root.remove(a.group)}
-function respawn(a){a.body.position.set(a.checkpoint.x,a.checkpoint.y,a.checkpoint.z);a.body.velocity.set(0,0,0);a.body.angularVelocity.set(0,0,0);a.stun=0}
-function updateActor(a,dt,now){
- if(!a.alive)return;
- if(a.stun>0){a.stun-=dt;return}
- let wishX=0,wishZ=0;
- if(a===player){wishX=stick.x+(keys.KeyD?1:0)-(keys.KeyA?1:0);wishZ=stick.y+(keys.KeyS?1:0)-(keys.KeyW?1:0)}
- else{
-  const p=a.body.position;let targetZ=-45;
-  let steer=Math.sin(now*.001+a.aiSeed)*.28;
-  wishX=steer+(Math.sin(now*.0007+a.aiSeed*2)*.2);
-  wishZ=-.9;
-  if(Math.random()<.008)wishX+=(Math.random()-.5)*1.2;
-  if(Math.random()<.012)a.body.velocity.y=Math.max(a.body.velocity.y,5.8);
-  if(Math.random()<.004)a.body.velocity.x+=(Math.random()-.5)*4;
- }
- const len=Math.hypot(wishX,wishZ);if(len>1){wishX/=len;wishZ/=len}
- const speed=a.dive>0?5.2:8.2;
- const vel=a.body.velocity;
- a.grounded=(a.body.position.y<1.25 && vel.y<.55);
- const accel=a.grounded?30:13;
- vel.x+=(wishX*speed-vel.x)*Math.min(1,accel*dt);
- vel.z+=(wishZ*speed-vel.z)*Math.min(1,accel*dt);
- if(a===player&&jumpQueued&&a.grounded){vel.y=8.8;a.grounded=false}
- if(a===player&&diveQueued){a.dive=.48;vel.y=Math.max(vel.y,1.3);vel.z-=3.2;vel.x+=wishX*2.2}
- if(a.dive>0)a.dive-=dt;
- if(a.grounded&&vel.y<0)vel.y=0;
- // Checkpoint and slime surfaces are functional editor parts.
- for(const o of objects){
-  const dx=Math.abs(a.body.position.x-o.pos[0]), dz=Math.abs(a.body.position.z-o.pos[2]);
-  if(o.type==='checkpoint' && dx<2.3 && dz<1.4 && a.body.position.y<2.2){
-   a.checkpoint={x:o.pos[0],y:2,z:o.pos[2]+1.5};
+  <section class="hero">
+    <div class="panel drop-panel">
+      <h2 class="section-title">ファイルをライブラリに追加</h2>
+      <p class="sub">HTMLファイル、または <b>index.html</b> を含むZIPを選択してね。画像・CSS・JSも使う場合はZIPにまとめてね。</p>
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="HTMLまたはZIPを選択">
+        <div class="upload-icon">⇧</div>
+        <strong>ここにドラッグ＆ドロップ</strong>
+        <span>または下のボタンからファイルを選択</span>
+        <button class="primary" id="pickBtn" type="button">ファイルを選択</button>
+        <input id="fileInput" type="file" accept=".html,.htm,.zip,text/html,application/zip,application/x-zip-compressed" hidden>
+      </div>
+      <div class="status" id="status" aria-live="polite">対応形式：.html / .htm / .zip</div>
+    </div>
+
+  </section>
+
+  <section class="panel library">
+    <div class="library-head">
+      <div class="library-title"><h2>マイライブラリ</h2><span class="count" id="count">0 件</span></div>
+      <div class="library-tools">
+        <button class="secondary" id="exportBackupBtn" type="button">バックアップを書き出す</button>
+        <button class="secondary" id="importBackupBtn" type="button">バックアップを追加</button>
+        <button class="danger-btn" id="clearLibraryBtn" type="button">すべて削除</button>
+        <input id="backupInput" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+      </div>
+    </div>
+    <div class="empty" id="empty"><div class="big">▱</div>まだファイルがないよ。HTMLかZIPを追加してみてね。</div>
+    <div class="project-list" id="projectList"></div>
+  </section>
+  <p class="foot">データはこのブラウザ内に保存されるよ。バックアップZIPにはHTML・関連ファイル・各サイトの保存データが含まれるよ。</p>
+</main>
+
+<div class="modal-backdrop" id="privacyModal" hidden>
+  <section class="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacyModalTitle">
+    <div class="modal-head"><h2 id="privacyModalTitle">この端末だけに保存</h2><button class="modal-close" id="privacyModalClose" type="button" aria-label="閉じる">×</button></div>
+    <div class="modal-content">
+      <p class="modal-lead"><span class="modal-check">✓</span> 選択したHTML・ZIPやサイト別データは、このブラウザのIndexedDBに保存されるよ。</p>
+      <div class="modal-point"><b>アップロードなし</b><span>このライブラリは、選択したファイルをサーバーへ送信しないよ。</span></div>
+      <div class="modal-point"><b>サイトごとに保存</b><span>各サイトのlocalStorage相当のデータも、この端末内で別々に保存するよ。</span></div>
+      <div class="modal-point"><b>バックアップ</b><span>「バックアップを書き出す」を押すと、ライブラリと各サイトの保存データをZIPでダウンロードできるよ。</span></div>
+      <p class="modal-warning">注意：実行するHTMLの内容は確認してね。実行するサイトはインターネット通信を利用できるよ。ブラウザのサイトデータを消すと、バックアップしていないライブラリも消える場合があるよ。</p>
+    </div>
+    <button class="primary modal-ok" id="privacyModalOk" type="button">OK</button>
+  </section>
+</div>
+
+<div id="runner" aria-label="HTML実行画面">
+  <iframe id="runnerFrame" title="選択したHTML" sandbox="allow-scripts allow-forms allow-popups allow-downloads allow-modals allow-pointer-lock" allow="fullscreen; gamepad" allowfullscreen referrerpolicy="no-referrer"></iframe>
+  <div id="runnerLoading">読み込み中…</div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const DB_NAME = 'html-local-library-v1';
+  const DB_VERSION = 2;
+  const MAX_FILES = 2500;
+  const MAX_FILE_SIZE = 80 * 1024 * 1024;
+  const MAX_TOTAL_SIZE = 160 * 1024 * 1024;
+  const MAX_ARCHIVE_SIZE = 512 * 1024 * 1024;
+  const BACKUP_ROOT = '__html_library_backup__/';
+  const BACKUP_MANIFEST = BACKUP_ROOT + 'manifest.json';
+  const $ = (id) => document.getElementById(id);
+  const fileInput = $('fileInput');
+  const dropzone = $('dropzone');
+  const statusEl = $('status');
+  const projectList = $('projectList');
+  const emptyEl = $('empty');
+  const runner = $('runner');
+  const runnerFrame = $('runnerFrame');
+  const runnerLoading = $('runnerLoading');
+  let dbPromise;
+  let currentObjectUrls = [];
+  let wasFullscreen = false;
+  let importing = false;
+  let activeProjectId = null;
+  let activeStorageValues = Object.create(null);
+  let storageSaveTimer = null;
+  let runnerHistoryActive = false;
+  let runnerRunToken = 0;
+  let runnerLoadTimer = null;
+
+  function setStatus(message, type = '') {
+    statusEl.textContent = message;
+    statusEl.className = 'status' + (type ? ' ' + type : '');
   }
-  if(o.type==='slime' && dx<4.1 && dz<4.1 && a.body.position.y<o.pos[1]+1.1 && a.body.position.y>o.pos[1]-.2 && vel.y<1){
-   vel.y=8.2; a.stun=.08;
+
+  function openDB() {
+    if (dbPromise) return dbPromise;
+    dbPromise = new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains('projects')) {
+          database.createObjectStore('projects', { keyPath: 'id' });
+        }
+        if (!database.objectStoreNames.contains('files')) {
+          const store = database.createObjectStore('files', { keyPath: 'key' });
+          store.createIndex('projectId', 'projectId', { unique: false });
+        }
+        if (!database.objectStoreNames.contains('siteStorage')) {
+          database.createObjectStore('siteStorage', { keyPath: 'projectId' });
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error('IndexedDBを開けなかったよ。'));
+      request.onblocked = () => reject(new Error('データベースが別のタブで使用中みたい。'));
+    });
+    return dbPromise;
   }
- }
- if(a.body.position.y< -12){if(a===player){endRound(false)}else removeActor(a)}
- const goal=objects.find(o=>o.type==='goal');
- const finishZ=goal?goal.pos[2]:-29;
- if(a.body.position.z<finishZ && Math.abs(a.body.position.x-(goal?goal.pos[0]:0))<(goal?goal.mesh.geometry.parameters.width/2+1:12)){
-  a.finished=true;if(a===player){endRound(true)}else removeActor(a);
- }
- a.group.position.set(a.body.position.x,a.body.position.y-.0,a.body.position.z);
- a.group.rotation.y=Math.atan2(vel.x,-vel.z);
-}
-function updateSpinner(t){for(const o of objects){if(o.type==='spinner'){o.mesh.rotation.y=o.rot+Math.sin(t*.001)*.9}}}
-function animate(){
- requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.033),now=performance.now();
- if(mode==='play'&&!finished){
-  if(jumpQueued||diveQueued){/* consumed below */}
-  world.step(1/60,dt,3);
-  updateActor(player,dt,now);for(const b of bots)updateActor(b,dt,now);
-  jumpQueued=false;diveQueued=false;
-  const remaining=alive.filter(a=>a.alive).length;$('playersLabel').textContent=`残り ${remaining} / 32`;
-  const elapsed=(now-roundStart)/1000;$('timerLabel').textContent=`${Math.max(0,Math.floor(roundDuration-elapsed)/60).toString().padStart(2,'0')}:${Math.max(0,Math.floor(roundDuration-elapsed)%60).toString().padStart(2,'0')}`;
-  if(elapsed>roundDuration)endRound(player?.alive);
-  const p=player?.body.position;if(p){camera.position.lerp(new THREE.Vector3(p.x,p.y+6,p.z+11),.08);camera.lookAt(p.x,p.y+.8,p.z-5)}
-  updateSpinner(now);
- }else if(mode==='editor'){
-  updateSpinner(now);
-  if(selected){selected.mesh.material.emissive?.setHex(0x223344)}
- }
- renderer.render(scene,camera);
-}
-animate();
-function enterEditor(){mode='editor';$('menu').style.display='none';$('hud').style.display='none';$('roundEnd').style.display='none';$('editorPanel').style.display='flex';disposeActors();clearParts();makePart('floor',[0,-.55,0]);camera.position.set(15,13,20);camera.lookAt(0,0,-10)}
-function backMenu(){mode='menu';$('menu').style.display='flex';$('editorPanel').style.display='none';$('hud').style.display='none';$('roundEnd').style.display='none';disposeActors()}
-function testEditor(){const data=serialize();mode='play';$('editorPanel').style.display='none';$('hud').style.display='block';$('menu').style.display='none';disposeActors();rounds=[{name:'Custom',final:false},{name:'Custom',final:false},{name:'Custom',final:false},{name:'Custom',final:true}];roundIndex=0;clearParts();loadStage(data);player=createPlayer(false);player.body.position.set(0,2,10);bots=[];for(let i=0;i<31;i++){let b=createPlayer(true,i);b.body.position.set((Math.random()-.5)*8,2,12+Math.random()*4);bots.push(b)}alive=[player,...bots];roundStart=performance.now();roundDuration=180;$('roundLabel').textContent=data.name;$('roundSub').textContent='テストプレイ';camera.position.set(0,7,18);camera.lookAt(0,1,0)}
-const toolNames=Object.keys(partDefs);for(const type of toolNames){const b=document.createElement('button');b.textContent=partDefs[type].label;b.onclick=()=>{editorTool=type;document.querySelectorAll('#tools button').forEach(x=>x.classList.remove('active'));b.classList.add('active')};$('tools').append(b)}$('tools').firstChild?.classList.add('active');
-function pointerToGround(ev){const rect=canvas.getBoundingClientRect(),mouse=new THREE.Vector2((ev.clientX-rect.left)/rect.width*2-1,-((ev.clientY-rect.top)/rect.height)*2+1);const ray=new THREE.Raycaster();ray.setFromCamera(mouse,camera);const plane=new THREE.Plane(new THREE.Vector3(0,1,0),0);const hit=new THREE.Vector3();ray.ray.intersectPlane(plane,hit);return hit}
-canvas.addEventListener('pointerdown',e=>{
- if(mode!=='editor')return;const pt=pointerToGround(e);if(!pt)return;
- if(selected&&e.shiftKey){selected.pos=[pt.x,selected.pos[1],pt.z];selected.mesh.position.set(...selected.pos);selected.body.position.copy(v3(selected.pos));return}
- const hit=new THREE.Raycaster();const rect=canvas.getBoundingClientRect();hit.setFromCamera(new THREE.Vector2((e.clientX-rect.left)/rect.width*2-1,-((e.clientY-rect.top)/rect.height)*2+1),camera);
- const found=hit.intersectObjects(objects.map(o=>o.mesh))[0];
- if(found){selected=objects.find(o=>o.mesh===found.object);$('editorHint').textContent=`選択中：${partDefs[selected.type].label}（Shift+タップで移動）`;return}
- const y=editorTool==='floor'?-0.55:editorTool==='goal'?1.5:.3;selected=makePart(editorTool,[Math.round(pt.x/1)*1,y,Math.round(pt.z/1)*1]);$('editorHint').textContent=`配置：${partDefs[editorTool].label}`;
-});
-$('deleteBtn').onclick=()=>{if(!selected)return;root.remove(selected.mesh);world.removeBody(selected.body);objects=objects.filter(o=>o!==selected);selected=null};
-$('rotateBtn').onclick=()=>{if(!selected)return;selected.rot+=Math.PI/2;selected.mesh.rotation.y=selected.rot;selected.body.quaternion.setFromEuler(0,selected.rot,0)};
-$('clearBtn').onclick=()=>{clearParts();makePart('floor',[0,-.55,0])};
-$('sampleBtn').onclick=()=>{clearParts();builtInStage('Sprint');toast('サンプルを配置したよ')};
-$('exportBtn').onclick=exportStage;$('importBtn').onclick=()=>$('fileInput').click();
-$('fileInput').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());loadStage(data);rememberStage(data);toast('ステージを読み込んだよ（プレイにも追加）')}catch(err){toast(err.message)}e.target.value=''};
-$('testBtn').onclick=testEditor;$('backMenuBtn').onclick=backMenu;
-$('playBtn').onclick=startMatch;$('editBtn').onclick=enterEditor;$('continueBtn').onclick=nextRound;$('endMenuBtn').onclick=backMenu;
-$('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();jumpQueued=true});$('diveBtn').addEventListener('pointerdown',e=>{e.preventDefault();diveQueued=true});
-$('stickArea').addEventListener('pointerdown',e=>{$('stickArea').setPointerCapture(e.pointerId);moveStick(e)});
-$('stickArea').addEventListener('pointermove',e=>{if(e.buttons||e.pressure)moveStick(e)});
-function moveStick(e){const r=$('stickArea').getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=e.clientX-cx,dy=e.clientY-cy,max=r.width*.34,len=Math.hypot(dx,dy),k=Math.min(1,max/(len||1));stick.x=dx*k/max;stick.y=dy*k/max;$('stick').style.transform=`translate(${dx*k}px,${dy*k}px)`}
-function resetStick(){stick={x:0,y:0};$('stick').style.transform='translate(0,0)'}
-$('stickArea').addEventListener('pointerup',resetStick);$('stickArea').addEventListener('pointercancel',resetStick);
-addEventListener('keydown',e=>{keys[e.code]=true;if(e.code==='Space')jumpQueued=true;if(e.code==='ShiftLeft'||e.code==='ShiftRight')diveQueued=true});
-addEventListener('keyup',e=>keys[e.code]=false);
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+
+  function transactionDone(tx) {
+    return new Promise((resolve, reject) => {
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error || new Error('保存に失敗したよ。'));
+      tx.onabort = () => reject(tx.error || new Error('保存が中断されたよ。'));
+    });
+  }
+
+  async function saveProject(project, entries) {
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files'], 'readwrite');
+    tx.objectStore('projects').put(project);
+    const fileStore = tx.objectStore('files');
+    for (const entry of entries) {
+      fileStore.put({
+        key: project.id + '::' + entry.path,
+        projectId: project.id,
+        path: entry.path,
+        blob: entry.blob,
+        size: entry.size,
+        type: entry.type
+      });
+    }
+    await transactionDone(tx);
+  }
+
+  async function getProjects() {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const request = database.transaction('projects', 'readonly').objectStore('projects').getAll();
+      request.onsuccess = () => resolve((request.result || []).sort((a, b) => b.createdAt - a.createdAt));
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function getProjectById(projectId) {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const request = database.transaction('projects', 'readonly').objectStore('projects').get(projectId);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function renameProject(projectId, newName) {
+    const database = await openDB();
+    const tx = database.transaction('projects', 'readwrite');
+    const store = tx.objectStore('projects');
+    const request = store.get(projectId);
+    request.onsuccess = () => {
+      const project = request.result;
+      if (!project) return;
+      project.name = newName;
+      store.put(project);
+    };
+    await transactionDone(tx);
+  }
+
+  async function getSiteStorage(projectId) {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const request = database.transaction('siteStorage', 'readonly').objectStore('siteStorage').get(projectId);
+      request.onsuccess = () => resolve(request.result && request.result.values ? request.result.values : {});
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function saveSiteStorage(projectId, values) {
+    if (!projectId) return;
+    const database = await openDB();
+    const tx = database.transaction('siteStorage', 'readwrite');
+    tx.objectStore('siteStorage').put({ projectId, values, updatedAt: Date.now() });
+    await transactionDone(tx);
+  }
+
+  async function resetSiteStorage(projectId) {
+    const database = await openDB();
+    const tx = database.transaction('siteStorage', 'readwrite');
+    tx.objectStore('siteStorage').delete(projectId);
+    await transactionDone(tx);
+  }
+
+  async function getAllLibraryData() {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readonly');
+      const projectsReq = tx.objectStore('projects').getAll();
+      const filesReq = tx.objectStore('files').getAll();
+      const storageReq = tx.objectStore('siteStorage').getAll();
+      tx.oncomplete = () => resolve({
+        projects: projectsReq.result || [],
+        files: filesReq.result || [],
+        siteStorage: storageReq.result || []
+      });
+      tx.onerror = () => reject(tx.error || new Error('ライブラリの読み込みに失敗したよ。'));
+      tx.onabort = () => reject(tx.error || new Error('ライブラリの読み込みが中断されたよ。'));
+    });
+  }
+
+  async function clearAllLibrary() {
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readwrite');
+    tx.objectStore('projects').clear();
+    tx.objectStore('files').clear();
+    tx.objectStore('siteStorage').clear();
+    await transactionDone(tx);
+  }
+
+  function crc32(bytes) {
+    let crc = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) {
+      crc ^= bytes[i];
+      for (let j = 0; j < 8; j++) crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+    }
+    return (crc ^ 0xffffffff) >>> 0;
+  }
+
+  function zipDosDateTime(date = new Date()) {
+    const year = Math.max(1980, date.getFullYear());
+    const dosTime = (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2);
+    const dosDate = ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
+    return { dosTime, dosDate };
+  }
+
+  function createStoredZip(entries) {
+    if (entries.length > 65535) throw new Error('バックアップ内のファイル数が多すぎるよ。');
+    const encoder = new TextEncoder();
+    const localParts = [];
+    const centralParts = [];
+    let localOffset = 0;
+    let payloadTotal = 0;
+    const stamp = zipDosDateTime();
+    const u16 = (view, offset, value) => view.setUint16(offset, value, true);
+    const u32 = (view, offset, value) => view.setUint32(offset, value >>> 0, true);
+
+    for (const entry of entries) {
+      const nameBytes = encoder.encode(entry.path);
+      const data = entry.data instanceof Uint8Array ? entry.data : new Uint8Array(entry.data);
+      if (nameBytes.length > 65535 || data.length > 0xffffffff) throw new Error('ZIPに保存できない大きさのファイルがあるよ。');
+      const crc = crc32(data);
+      const local = new Uint8Array(30 + nameBytes.length);
+      const lv = new DataView(local.buffer);
+      u32(lv, 0, 0x04034b50); u16(lv, 4, 20); u16(lv, 6, 0x0800); u16(lv, 8, 0);
+      u16(lv, 10, stamp.dosTime); u16(lv, 12, stamp.dosDate); u32(lv, 14, crc);
+      u32(lv, 18, data.length); u32(lv, 22, data.length); u16(lv, 26, nameBytes.length); u16(lv, 28, 0);
+      local.set(nameBytes, 30);
+      localParts.push(local, data);
+
+      const central = new Uint8Array(46 + nameBytes.length);
+      const cv = new DataView(central.buffer);
+      u32(cv, 0, 0x02014b50); u16(cv, 4, 20); u16(cv, 6, 20); u16(cv, 8, 0x0800); u16(cv, 10, 0);
+      u16(cv, 12, stamp.dosTime); u16(cv, 14, stamp.dosDate); u32(cv, 16, crc);
+      u32(cv, 20, data.length); u32(cv, 24, data.length); u16(cv, 28, nameBytes.length);
+      u16(cv, 30, 0); u16(cv, 32, 0); u16(cv, 34, 0); u16(cv, 36, 0); u32(cv, 38, 0); u32(cv, 42, localOffset);
+      central.set(nameBytes, 46);
+      centralParts.push(central);
+      localOffset += local.length + data.length;
+      payloadTotal += data.length;
+      if (payloadTotal > MAX_ARCHIVE_SIZE) throw new Error('バックアップが大きすぎるよ（上限 ' + formatBytes(MAX_ARCHIVE_SIZE) + '）。');
+      if (localOffset > 0xffffffff) throw new Error('ZIP64が必要なサイズのバックアップには対応していないよ。');
+    }
+
+    const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+    if (centralSize > 0xffffffff || localOffset + centralSize > 0xffffffff) throw new Error('ZIP64が必要なサイズのバックアップには対応していないよ。');
+    const end = new Uint8Array(22);
+    const ev = new DataView(end.buffer);
+    u32(ev, 0, 0x06054b50); u16(ev, 4, 0); u16(ev, 6, 0); u16(ev, 8, entries.length); u16(ev, 10, entries.length);
+    u32(ev, 12, centralSize); u32(ev, 16, localOffset); u16(ev, 20, 0);
+    return new Blob([...localParts, ...centralParts, end], { type: 'application/zip' });
+  }
+
+  async function exportLibraryBackup() {
+    const data = await getAllLibraryData();
+    const storageById = new Map(data.siteStorage.map(item => [item.projectId, item.values || {}]));
+    const fileByProject = new Map();
+    for (const record of data.files) {
+      if (!fileByProject.has(record.projectId)) fileByProject.set(record.projectId, []);
+      fileByProject.get(record.projectId).push(record);
+    }
+    const manifest = { format: 'html-library-backup', version: 1, exportedAt: Date.now(), projects: [] };
+    const zipEntries = [];
+    let archiveIndex = 0;
+    for (const project of data.projects) {
+      const records = fileByProject.get(project.id) || [];
+      if (!records.length) continue;
+      archiveIndex++;
+      const archiveId = String(archiveIndex).padStart(5, '0');
+      const files = [];
+      for (const record of records) {
+        const cleanPath = safePath(record.path);
+        const archivePath = BACKUP_ROOT + 'projects/' + archiveId + '/files/' + cleanPath;
+        const bytes = new Uint8Array(await record.blob.arrayBuffer());
+        zipEntries.push({ path: archivePath, data: bytes });
+        files.push({ path: cleanPath, archivePath, size: bytes.length, type: record.type || guessMime(cleanPath) });
+      }
+      manifest.projects.push({
+        archiveId,
+        project: {
+          name: String(project.name || 'Untitled'), originalName: String(project.originalName || project.name || 'backup'),
+          entryPath: safePath(project.entryPath), createdAt: Number(project.createdAt) || Date.now(),
+          fileCount: files.length, totalSize: files.reduce((sum, item) => sum + item.size, 0), kind: project.kind === 'ZIP' ? 'ZIP' : 'HTML'
+        },
+        storage: normalizeStorageValues(storageById.get(project.id) || {}),
+        files
+      });
+    }
+    const manifestBytes = new TextEncoder().encode(JSON.stringify(manifest));
+    zipEntries.unshift({ path: BACKUP_MANIFEST, data: manifestBytes });
+    if (zipEntries.length > MAX_FILES) throw new Error('バックアップ内のファイル数が上限を超えているよ（' + MAX_FILES + '件）。');
+    const blob = createStoredZip(zipEntries);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const date = new Date();
+    const stamp = [date.getFullYear(), String(date.getMonth()+1).padStart(2,'0'), String(date.getDate()).padStart(2,'0'), '-', String(date.getHours()).padStart(2,'0'), String(date.getMinutes()).padStart(2,'0')].join('');
+    a.href = url; a.download = 'html-library-backup-' + stamp + '.zip';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    return { projectCount: manifest.projects.length, fileCount: zipEntries.length - 1, size: blob.size };
+  }
+
+  async function importLibraryBackup(extracted, manifest) {
+    if (!manifest || manifest.format !== 'html-library-backup' || manifest.version !== 1 || !Array.isArray(manifest.projects)) {
+      throw new Error('このバックアップ形式には対応していないよ。');
+    }
+    if (manifest.projects.length > MAX_FILES) throw new Error('バックアップ内のサイト数が多すぎるよ。');
+    const extractedByPath = new Map(extracted.map(item => [safePath(item.path), item]));
+    const prepared = [];
+    let totalFiles = 0;
+    let totalBytes = 0;
+    for (const saved of manifest.projects) {
+      const meta = saved && saved.project;
+      if (!meta || !Array.isArray(saved.files) || !saved.files.length) continue;
+      const id = makeId();
+      const entries = [];
+      for (const file of saved.files) {
+        const originalPath = safePath(file.path);
+        const archivePath = safePath(file.archivePath);
+        const item = extractedByPath.get(archivePath);
+        if (!originalPath || !archivePath || !item) throw new Error('バックアップ内のファイルが見つからないよ：' + (file.path || '不明'));
+        if (item.data.byteLength > MAX_FILE_SIZE) throw new Error('大きすぎるファイルが含まれているよ：' + originalPath);
+        totalFiles++;
+        totalBytes += item.data.byteLength;
+        if (totalFiles > MAX_FILES || totalBytes > MAX_ARCHIVE_SIZE) throw new Error('バックアップの容量またはファイル数が上限を超えているよ。');
+        entries.push({
+          key: id + '::' + originalPath, projectId: id, path: originalPath,
+          blob: new Blob([item.data], { type: file.type || guessMime(originalPath) }),
+          size: item.data.byteLength, type: file.type || guessMime(originalPath)
+        });
+      }
+      const entryPath = safePath(meta.entryPath);
+      if (!entries.some(item => item.path === entryPath)) throw new Error('起動ファイルが含まれていないサイトがあるよ：' + (meta.name || '名称不明'));
+      const project = {
+        id, name: String(meta.name || 'Restored site').slice(0, 120),
+        originalName: String(meta.originalName || meta.name || 'backup'), entryPath,
+        createdAt: Number(meta.createdAt) || Date.now(), fileCount: entries.length,
+        totalSize: entries.reduce((sum, item) => sum + item.size, 0), kind: meta.kind === 'ZIP' ? 'ZIP' : 'HTML'
+      };
+      const storage = normalizeStorageValues(saved.storage || {});
+      prepared.push({ project, entries, storage });
+    }
+    if (!prepared.length) throw new Error('追加できるサイトがバックアップ内に見つからなかったよ。');
+
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readwrite');
+    const projectsStore = tx.objectStore('projects');
+    const filesStore = tx.objectStore('files');
+    const storageStore = tx.objectStore('siteStorage');
+    for (const item of prepared) {
+      projectsStore.put(item.project);
+      for (const file of item.entries) filesStore.put(file);
+      storageStore.put({ projectId: item.project.id, values: item.storage, updatedAt: Date.now() });
+    }
+    await transactionDone(tx);
+    return { projectCount: prepared.length, fileCount: totalFiles };
+  }
+
+  function normalizeStorageValues(values) {
+    const clean = Object.create(null);
+    if (!values || typeof values !== 'object' || Array.isArray(values)) return clean;
+    let size = 0;
+    for (const [key, value] of Object.entries(values)) {
+      const k = String(key);
+      const v = String(value);
+      size += (k.length + v.length) * 2;
+      if (size > 4 * 1024 * 1024) throw new Error('サイトデータが大きすぎるため保存できないよ（約4MBまで）。');
+      clean[k] = v;
+    }
+    return clean;
+  }
+
+  function scheduleStorageSave() {
+    if (!activeProjectId) return;
+    if (storageSaveTimer) clearTimeout(storageSaveTimer);
+    const projectId = activeProjectId;
+    const values = { ...activeStorageValues };
+    storageSaveTimer = setTimeout(() => {
+      storageSaveTimer = null;
+      saveSiteStorage(projectId, values).catch(error => {
+        console.warn('サイトデータの保存に失敗:', error);
+      });
+    }, 180);
+  }
+
+  async function flushActiveStorage() {
+    if (!activeProjectId) return;
+    const projectId = activeProjectId;
+    const values = { ...activeStorageValues };
+    if (storageSaveTimer) clearTimeout(storageSaveTimer);
+    storageSaveTimer = null;
+    await saveSiteStorage(projectId, values);
+  }
+
+  async function getProjectFiles(projectId) {
+    const database = await openDB();
+    return new Promise((resolve, reject) => {
+      const store = database.transaction('files', 'readonly').objectStore('files').index('projectId');
+      const request = store.getAll(IDBKeyRange.only(projectId));
+      request.onsuccess = () => resolve(request.result || []);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function deleteProject(projectId) {
+    const database = await openDB();
+    const tx = database.transaction(['projects', 'files', 'siteStorage'], 'readwrite');
+    tx.objectStore('projects').delete(projectId);
+    tx.objectStore('siteStorage').delete(projectId);
+    const index = tx.objectStore('files').index('projectId');
+    const request = index.openCursor(IDBKeyRange.only(projectId));
+    request.onsuccess = () => {
+      const cursor = request.result;
+      if (cursor) { cursor.delete(); cursor.continue(); }
+    };
+    await transactionDone(tx);
+  }
+
+  function makeId() {
+    if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'p-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function safePath(path) {
+    const parts = String(path).replace(/\\/g, '/').split('/');
+    const out = [];
+    for (const part of parts) {
+      if (!part || part === '.') continue;
+      if (part === '..') { if (out.length) out.pop(); continue; }
+      out.push(part);
+    }
+    return out.join('/');
+  }
+
+  function decodeZipName(bytes, utf8) {
+    try {
+      return new TextDecoder(utf8 ? 'utf-8' : 'shift_jis').decode(bytes);
+    } catch (_) {
+      return new TextDecoder('utf-8').decode(bytes);
+    }
+  }
+
+  async function inflateRaw(compressed) {
+    if (typeof DecompressionStream !== 'function') {
+      throw new Error('このブラウザはZIPの展開に対応していないみたい。最新版のSafari / Chrome / Edgeで試してね。');
+    }
+    let stream;
+    try { stream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream('deflate-raw')); }
+    catch (error) { throw new Error('ZIPの圧縮形式に対応していないよ：' + (error.message || error)); }
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+
+  async function readZip(arrayBuffer, onProgress) {
+    const bytes = new Uint8Array(arrayBuffer);
+    const view = new DataView(arrayBuffer);
+    const min = Math.max(0, bytes.length - 22 - 65535);
+    let eocd = -1;
+    for (let i = bytes.length - 22; i >= min; i--) {
+      if (view.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+    }
+    if (eocd < 0) throw new Error('ZIPの終端情報が見つからないよ。壊れたZIPかもしれない。');
+    const diskNo = view.getUint16(eocd + 4, true);
+    const centralDisk = view.getUint16(eocd + 6, true);
+    const entriesOnDisk = view.getUint16(eocd + 8, true);
+    const totalEntries = view.getUint16(eocd + 10, true);
+    const centralSize = view.getUint32(eocd + 12, true);
+    const centralOffset = view.getUint32(eocd + 16, true);
+    if (diskNo !== 0 || centralDisk !== 0 || entriesOnDisk !== totalEntries) throw new Error('分割ZIPには対応していないよ。');
+    if (totalEntries === 0xffff || centralOffset === 0xffffffff || centralSize === 0xffffffff) throw new Error('ZIP64形式にはまだ対応していないよ。');
+    if (totalEntries > MAX_FILES) throw new Error('ファイル数が多すぎるよ（上限 ' + MAX_FILES + ' 件）。');
+
+    const files = [];
+    let offset = centralOffset;
+    let totalSize = 0;
+    for (let i = 0; i < totalEntries; i++) {
+      if (offset + 46 > bytes.length || view.getUint32(offset, true) !== 0x02014b50) {
+        throw new Error('ZIPのファイル一覧を読み取れなかったよ。');
+      }
+      const flags = view.getUint16(offset + 8, true);
+      const method = view.getUint16(offset + 10, true);
+      const compressedSize = view.getUint32(offset + 20, true);
+      const uncompressedSize = view.getUint32(offset + 24, true);
+      const nameLength = view.getUint16(offset + 28, true);
+      const extraLength = view.getUint16(offset + 30, true);
+      const commentLength = view.getUint16(offset + 32, true);
+      const localOffset = view.getUint32(offset + 42, true);
+      const nameBytes = bytes.slice(offset + 46, offset + 46 + nameLength);
+      const originalPath = decodeZipName(nameBytes, !!(flags & 0x0800));
+      const path = safePath(originalPath);
+      offset += 46 + nameLength + extraLength + commentLength;
+      if (!path || originalPath.endsWith('/') || originalPath.endsWith('\\')) continue;
+      if (flags & 1) throw new Error('暗号化されたZIPには対応していないよ：' + path);
+      if (compressedSize === 0xffffffff || uncompressedSize === 0xffffffff || localOffset === 0xffffffff) {
+        throw new Error('ZIP64形式のファイルには対応していないよ：' + path);
+      }
+      if (uncompressedSize > MAX_FILE_SIZE) throw new Error('大きすぎるファイルが含まれているよ：' + path);
+      totalSize += uncompressedSize;
+      if (totalSize > MAX_ARCHIVE_SIZE) throw new Error('ZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_ARCHIVE_SIZE) + '）。');
+
+      if (localOffset + 30 > bytes.length || view.getUint32(localOffset, true) !== 0x04034b50) {
+        throw new Error('ZIP内のファイルデータを読めなかったよ：' + path);
+      }
+      const localNameLength = view.getUint16(localOffset + 26, true);
+      const localExtraLength = view.getUint16(localOffset + 28, true);
+      const dataStart = localOffset + 30 + localNameLength + localExtraLength;
+      const dataEnd = dataStart + compressedSize;
+      if (dataEnd > bytes.length) throw new Error('ファイルデータが途中で切れているよ：' + path);
+      const compressed = bytes.slice(dataStart, dataEnd);
+      let data;
+      if (method === 0) data = compressed;
+      else if (method === 8) data = await inflateRaw(compressed);
+      else throw new Error('未対応のZIP圧縮方式 (' + method + ')：' + path);
+      if (data.byteLength !== uncompressedSize) throw new Error('展開後のサイズが一致しないよ：' + path);
+      files.push({ path, data, size: data.byteLength, type: guessMime(path) });
+      if (onProgress) onProgress(i + 1, totalEntries);
+    }
+    return files;
+  }
+
+  function guessMime(path) {
+    const ext = (path.split('.').pop() || '').toLowerCase();
+    const map = {
+      html:'text/html', htm:'text/html', css:'text/css', js:'text/javascript', mjs:'text/javascript',
+      json:'application/json', txt:'text/plain', xml:'application/xml', svg:'image/svg+xml',
+      png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg', gif:'image/gif', webp:'image/webp', avif:'image/avif',
+      ico:'image/x-icon', bmp:'image/bmp', mp3:'audio/mpeg', wav:'audio/wav', ogg:'audio/ogg', mp4:'video/mp4',
+      webm:'video/webm', pdf:'application/pdf', woff:'font/woff', woff2:'font/woff2', ttf:'font/ttf', otf:'font/otf',
+      wasm:'application/wasm', glb:'model/gltf-binary', gltf:'model/gltf+json', bin:'application/octet-stream'
+    };
+    return map[ext] || 'application/octet-stream';
+  }
+
+  async function importFile(file) {
+    if (importing) return;
+    importing = true;
+    $('pickBtn').disabled = true;
+    try {
+      const lower = file.name.toLowerCase();
+      let entries = [];
+      let entryPath = '';
+      let projectName = file.name.replace(/\.(html?|zip)$/i, '') || 'Untitled';
+      if (lower.endsWith('.html') || lower.endsWith('.htm') || file.type === 'text/html') {
+        if (file.size > MAX_FILE_SIZE) throw new Error('HTMLファイルが大きすぎるよ（上限 ' + formatBytes(MAX_FILE_SIZE) + '）。');
+        entryPath = safePath(file.name) || 'index.html';
+        entries = [{ path: entryPath, blob: file, size: file.size, type: 'text/html' }];
+      } else if (lower.endsWith('.zip') || file.type.includes('zip')) {
+        setStatus('ZIPを展開中…');
+        const extracted = await readZip(await file.arrayBuffer(), (n, total) => setStatus('ZIPを展開中… ' + n + ' / ' + total));
+        if (!extracted.length) throw new Error('ZIPの中にファイルが見つからなかったよ。');
+        const backupManifestFile = extracted.find(item => safePath(item.path) === BACKUP_MANIFEST);
+        if (backupManifestFile) {
+          setStatus('バックアップを確認中…');
+          let manifest;
+          try { manifest = JSON.parse(new TextDecoder('utf-8').decode(backupManifestFile.data)); }
+          catch (_) { throw new Error('バックアップの管理情報を読み取れなかったよ。'); }
+          const result = await importLibraryBackup(extracted, manifest);
+          await renderLibrary();
+          setStatus('バックアップを追加したよ：' + result.projectCount + ' サイト / ' + result.fileCount + ' ファイル', 'success');
+          return;
+        }
+        const siteArchiveSize = extracted.reduce((sum, item) => sum + item.size, 0);
+        if (siteArchiveSize > MAX_TOTAL_SIZE) throw new Error('サイトZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_TOTAL_SIZE) + '）。');
+        const candidates = extracted.filter(item => /(^|\/)index\.html?$/i.test(item.path));
+        if (!candidates.length) throw new Error('ZIP内に index.html（または index.htm）が見つからないよ。');
+        candidates.sort((a, b) => a.path.split('/').length - b.path.split('/').length);
+        entryPath = candidates[0].path;
+        entries = extracted.map(item => ({
+          path: item.path,
+          blob: new Blob([item.data], { type: item.type }),
+          size: item.size,
+          type: item.type
+        }));
+      } else {
+        throw new Error('HTMLまたはZIPファイルを選択してね。');
+      }
+
+      const totalSize = entries.reduce((sum, item) => sum + item.size, 0);
+      const project = {
+        id: makeId(), name: projectName, originalName: file.name, entryPath,
+        createdAt: Date.now(), fileCount: entries.length, totalSize,
+        kind: lower.endsWith('.zip') ? 'ZIP' : 'HTML'
+      };
+      setStatus('端末内のライブラリに保存中…');
+      await saveProject(project, entries);
+      await renderLibrary();
+      setStatus('追加できたよ：' + project.name + '（' + entries.length + ' ファイル）', 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(error && error.message ? error.message : '追加に失敗したよ。', 'error');
+    } finally {
+      importing = false;
+      $('pickBtn').disabled = false;
+      fileInput.value = '';
+    }
+  }
+
+  async function renderLibrary() {
+    const projects = await getProjects();
+    $('count').textContent = projects.length + ' 件';
+    emptyEl.classList.toggle('hidden', projects.length > 0);
+    projectList.innerHTML = '';
+    for (const project of projects) {
+      const row = document.createElement('article');
+      row.className = 'project';
+      const icon = document.createElement('div');
+      icon.className = 'file-icon';
+      icon.textContent = project.kind === 'ZIP' ? 'ZIP' : 'HTML';
+      const info = document.createElement('div');
+      info.className = 'project-info';
+      const name = document.createElement('button');
+      name.type = 'button';
+      name.className = 'project-name-btn';
+      name.textContent = project.name;
+      name.title = 'タップして名称変更';
+      name.setAttribute('aria-label', project.name + ' の名称を変更');
+      name.addEventListener('click', () => beginRename(project, name));
+      const meta = document.createElement('div');
+      meta.className = 'project-meta';
+      const date = new Date(project.createdAt).toLocaleString('ja-JP');
+      meta.textContent = project.entryPath + ' ・ ' + project.fileCount + ' ファイル ・ ' + formatBytes(project.totalSize) + ' ・ ' + date;
+      info.append(name, meta);
+
+      const actions = document.createElement('div');
+      actions.className = 'project-actions';
+      const run = document.createElement('button');
+      run.type = 'button'; run.className = 'primary'; run.textContent = '実行';
+      run.addEventListener('click', () => runProject(project));
+      const more = document.createElement('button');
+      more.type = 'button'; more.className = 'secondary'; more.textContent = 'その他…';
+      more.setAttribute('aria-expanded', 'false');
+      const menu = document.createElement('div');
+      menu.className = 'more-menu';
+      const reset = document.createElement('button');
+      reset.type = 'button'; reset.className = 'menu-item'; reset.textContent = 'サイトデータをリセット';
+      reset.addEventListener('click', async () => {
+        closeProjectMenu(menu, more);
+        if (!confirm('「' + project.name + '」の保存データ（localStorage）をリセットする？\nHTMLファイル自体は削除されないよ。')) return;
+        try {
+          await resetSiteStorage(project.id);
+          setStatus('「' + project.name + '」のサイトデータをリセットしたよ。', 'success');
+        } catch (error) {
+          setStatus(error.message || 'リセットできなかったよ。', 'error');
+        }
+      });
+      const remove = document.createElement('button');
+      remove.type = 'button'; remove.className = 'menu-item danger'; remove.textContent = 'ライブラリから削除';
+      remove.addEventListener('click', async () => {
+        closeProjectMenu(menu, more);
+        if (!confirm('「' + project.name + '」をライブラリと保存データごと削除する？')) return;
+        try {
+          await deleteProject(project.id);
+          await renderLibrary();
+          setStatus('削除したよ。', 'success');
+        } catch (error) { setStatus(error.message || '削除できなかったよ。', 'error'); }
+      });
+      menu.append(reset, remove);
+      more.addEventListener('click', () => {
+        const willOpen = !menu.classList.contains('open');
+        closeAllProjectMenus();
+        if (willOpen) {
+          const rect = more.getBoundingClientRect();
+          if (window.innerHeight - rect.bottom < 150 && rect.top > 150) menu.classList.add('up');
+          else menu.classList.remove('up');
+          menu.classList.add('open');
+          more.setAttribute('aria-expanded', 'true');
+        }
+      });
+      actions.append(run, more, menu);
+      row.append(icon, info, actions);
+      projectList.append(row);
+    }
+  }
+
+  function beginRename(project, nameButton) {
+    if (!nameButton.isConnected) return;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'rename-input';
+    input.value = project.name;
+    input.maxLength = 120;
+    input.setAttribute('aria-label', 'サイト名');
+    nameButton.replaceWith(input);
+    input.focus();
+    input.select();
+    let finished = false;
+    const finish = async (save) => {
+      if (finished) return;
+      finished = true;
+      const nextName = input.value.trim();
+      if (!save || !nextName || nextName === project.name) {
+        await renderLibrary();
+        return;
+      }
+      try {
+        await renameProject(project.id, nextName);
+        await renderLibrary();
+        setStatus('名称を「' + nextName + '」に変更したよ。', 'success');
+      } catch (error) {
+        await renderLibrary();
+        setStatus(error.message || '名称を変更できなかったよ。', 'error');
+      }
+    };
+    input.addEventListener('keydown', event => {
+      if (event.key === 'Enter') { event.preventDefault(); finish(true); }
+      if (event.key === 'Escape') { event.preventDefault(); finish(false); }
+    });
+    input.addEventListener('blur', () => finish(true));
+  }
+
+  function closeProjectMenu(menu, button) {
+    menu.classList.remove('open');
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  function closeAllProjectMenus() {
+    projectList.querySelectorAll('.more-menu.open').forEach(menu => {
+      menu.classList.remove('open');
+      const button = menu.parentElement && menu.parentElement.querySelector('button[aria-expanded]');
+      if (button) button.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function isExternalReference(value) {
+    const v = String(value || '').trim();
+    return !v || v.startsWith('#') || /^(?:data:|blob:|https?:|file:|javascript:|mailto:|tel:|\/\/)/i.test(v);
+  }
+
+  function resolveLocalPath(fromPath, reference) {
+    const raw = String(reference || '').trim().replace(/^['"]|['"]$/g, '');
+    if (isExternalReference(raw)) return null;
+    const clean = raw.split('#')[0].split('?')[0];
+    if (!clean) return fromPath;
+    try {
+      const base = 'https://local.invalid/' + fromPath.split('/').slice(0, -1).join('/') + '/';
+      const url = new URL(clean, base);
+      if (url.origin !== 'https://local.invalid') return null;
+      return safePath(decodeURIComponent(url.pathname.replace(/^\//, '')));
+    } catch (_) { return null; }
+  }
+
+  async function replaceAsync(source, regex, replacer) {
+    const matches = [...source.matchAll(regex)];
+    if (!matches.length) return source;
+    let result = '';
+    let last = 0;
+    for (const match of matches) {
+      result += source.slice(last, match.index);
+      result += await replacer(match);
+      last = match.index + match[0].length;
+    }
+    return result + source.slice(last);
+  }
+
+  async function buildProjectDocument(project, fileRecords, savedStorage) {
+    const files = new Map(fileRecords.map(item => [safePath(item.path), item]));
+    const rawUrlCache = new Map();
+    const cssUrlCache = new Map();
+
+    const rememberUrl = (blob) => {
+      const url = URL.createObjectURL(blob);
+      currentObjectUrls.push(url);
+      return url;
+    };
+
+    async function assetUrl(path) {
+      const clean = safePath(path);
+      const record = files.get(clean);
+      if (!record) return null;
+      if (/\.css$/i.test(clean) || record.type === 'text/css') {
+        if (cssUrlCache.has(clean)) return cssUrlCache.get(clean);
+        const promise = (async () => {
+          const text = await record.blob.text();
+          const css = await rewriteCss(text, clean);
+          return rememberUrl(new Blob([css], { type: 'text/css;charset=utf-8' }));
+        })();
+        cssUrlCache.set(clean, promise);
+        return promise;
+      }
+      if (rawUrlCache.has(clean)) return rawUrlCache.get(clean);
+      const url = rememberUrl(record.blob);
+      rawUrlCache.set(clean, url);
+      return url;
+    }
+
+    async function rewriteCss(cssText, cssPath) {
+      let css = String(cssText);
+      css = await replaceAsync(css, /@import\s+(?!url\s*\()(["'])([^"']+)\1/gi, async match => {
+        const local = resolveLocalPath(cssPath, match[2]);
+        if (!local || !files.has(local)) return match[0];
+        const url = await assetUrl(local);
+        return url ? '@import url("' + url + '")' : match[0];
+      });
+      css = await replaceAsync(css, /url\(\s*(?:(["'])(.*?)\1|([^)]*?))\s*\)/gi, async match => {
+        const reference = (match[2] !== undefined ? match[2] : match[3] || '').trim();
+        if (isExternalReference(reference)) return match[0];
+        const local = resolveLocalPath(cssPath, reference);
+        if (!local || !files.has(local)) return 'url("data:,")';
+        const url = await assetUrl(local);
+        return url ? 'url("' + url + '")' : 'url("data:,")';
+      });
+      return css;
+    }
+
+    const entryRecord = files.get(safePath(project.entryPath));
+    if (!entryRecord) throw new Error('起動ファイルが見つからないよ。ライブラリに追加し直してね。');
+    let html = await entryRecord.blob.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    // 通信を遮断するCSPは追加しない。元HTMLのbase要素も維持する。
+    if (!doc.head) doc.documentElement.insertBefore(doc.createElement('head'), doc.body || null);
+
+    const attrNames = ['src', 'href', 'poster', 'data', 'xlink:href'];
+    for (const element of [...doc.querySelectorAll('*')]) {
+      for (const attr of attrNames) {
+        if (!element.hasAttribute(attr)) continue;
+        const value = element.getAttribute(attr);
+        if (isExternalReference(value)) continue;
+        const local = resolveLocalPath(project.entryPath, value);
+        if (!local) continue;
+        if (!files.has(local)) {
+          // ページ内アンカーや仮想パスはそのまま。存在しない外部ファイルだけ無効化。
+          if (/\.(?:css|js|mjs|png|jpe?g|gif|svg|webp|woff2?|ttf|otf|mp3|mp4|webm|json|wasm)(?:$|[?#])/i.test(value)) {
+            element.setAttribute(attr, 'data:,');
+          }
+          continue;
+        }
+        const url = await assetUrl(local);
+        if (url) element.setAttribute(attr, url);
+      }
+      if (element.hasAttribute('srcset')) {
+        const srcset = element.getAttribute('srcset');
+        const pieces = srcset.split(',').map(s => s.trim()).filter(Boolean);
+        const rewritten = [];
+        for (const piece of pieces) {
+          const bits = piece.split(/\s+/);
+          const local = resolveLocalPath(project.entryPath, bits[0]);
+          if (local && files.has(local)) {
+            const url = await assetUrl(local);
+            if (url) bits[0] = url;
+          }
+          rewritten.push(bits.join(' '));
+        }
+        element.setAttribute('srcset', rewritten.join(', '));
+      }
+      if (element.hasAttribute('style')) {
+        element.setAttribute('style', await rewriteCss(element.getAttribute('style'), project.entryPath));
+      }
+      if (element.tagName.toLowerCase() === 'style') {
+        element.textContent = await rewriteCss(element.textContent, project.entryPath);
+      }
+    }
+
+    if (!doc.querySelector('meta[name="viewport"]')) {
+      const viewport = doc.createElement('meta');
+      viewport.name = 'viewport'; viewport.content = 'width=device-width,initial-scale=1,viewport-fit=cover';
+      doc.head.appendChild(viewport);
+    }
+    const storageBootstrap = doc.createElement('script');
+    const storageSeed = JSON.stringify(savedStorage || {}).replace(/</g, '\\u003c');
+    const projectToken = JSON.stringify(project.id).replace(/</g, '\\u003c');
+    storageBootstrap.textContent = "(()=>{const projectId=" + projectToken + ";const data=Object.assign(Object.create(null)," + storageSeed + ");const report=(kind,message)=>{try{parent.postMessage({__htmlLibraryRuntimeError:true,projectId,kind,message:String(message||'Unknown error').slice(0,700)},'*')}catch(e){}};addEventListener('error',event=>report('error',event.message||event.error&&event.error.message||'Script error'));addEventListener('unhandledrejection',event=>{const reason=event.reason;report('rejection',reason&& (reason.stack||reason.message)||reason)});document.addEventListener('DOMContentLoaded',()=>{try{parent.postMessage({__htmlLibraryDomReady:true,projectId},'*')}catch(e){}},{once:true});const notify=()=>{try{parent.postMessage({__htmlLibraryStorageBridge:true,projectId,values:data},'*')}catch(e){}};const base={get length(){return Object.keys(data).length},key(index){const keys=Object.keys(data);return Number.isInteger(Number(index))&&Number(index)>=0?keys[Number(index)]??null:null},getItem(key){const k=String(key);return Object.prototype.hasOwnProperty.call(data,k)?data[k]:null},setItem(key,value){data[String(key)]=String(value);notify()},removeItem(key){delete data[String(key)];notify()},clear(){for(const key of Object.keys(data))delete data[key];notify()}};const storage=new Proxy(base,{get(target,key,receiver){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)&&!(key in target))return data[key];const value=Reflect.get(target,key,receiver);return typeof value==='function'?value.bind(target):value},set(target,key,value,receiver){if(typeof key==='string'&&!(key in target)){data[key]=String(value);notify();return true}return Reflect.set(target,key,value,receiver)},deleteProperty(target,key){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)){delete data[key];notify();return true}return Reflect.deleteProperty(target,key)},ownKeys(target){return [...new Set([...Reflect.ownKeys(target),...Object.keys(data)])]},getOwnPropertyDescriptor(target,key){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)&&!(key in target))return {configurable:true,enumerable:true,writable:true,value:data[key]};return Reflect.getOwnPropertyDescriptor(target,key)}});try{Object.defineProperty(window,'localStorage',{configurable:true,enumerable:true,value:storage})}catch(e){try{window.localStorage=storage}catch(_){}}window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!e.defaultPrevented){try{parent.postMessage({__htmlLibraryExitRequest:true,projectId},'*')}catch(_){}}});})();";
+    doc.head.insertBefore(storageBootstrap, doc.head.firstChild);
+
+    return '<!doctype html>\n' + doc.documentElement.outerHTML;
+  }
+
+  async function runProject(project) {
+    const priorClose = closeRunner(false);
+    const runToken = runnerRunToken;
+    runner.classList.add('active');
+    runnerLoading.classList.remove('off');
+    runnerLoading.textContent = '読み込み中…';
+    wasFullscreen = false;
+
+    // ブラウザの「戻る」でも実行画面を閉じられるように履歴を1段追加。
+    try {
+      history.pushState({ __htmlLibraryRunner: true }, '', location.pathname + location.search + '#html-runner');
+      runnerHistoryActive = true;
+    } catch (_) { runnerHistoryActive = false; }
+
+    // Fullscreen APIはユーザーのタップ直後に呼び出す。
+    if (typeof runner.requestFullscreen === 'function') {
+      try {
+        const request = runner.requestFullscreen({ navigationUI: 'hide' });
+        if (request && typeof request.then === 'function') {
+          request.then(() => { if (runToken === runnerRunToken) wasFullscreen = runner.classList.contains('active'); }).catch(() => {
+            if (runToken === runnerRunToken) setStatus('このブラウザでは完全な全画面表示が許可されなかったよ。戻る操作で終了できるよ。', 'error');
+          });
+        }
+      } catch (_) {
+        setStatus('このブラウザでは完全な全画面表示が使えなかったよ。戻る操作で終了できるよ。', 'error');
+      }
+    } else {
+      setStatus('このブラウザは全画面APIに非対応。戻る操作で終了できるよ。', 'error');
+    }
+
+    try {
+      await priorClose;
+      if (runToken !== runnerRunToken) return;
+      currentObjectUrls.forEach(url => URL.revokeObjectURL(url));
+      currentObjectUrls = [];
+      const records = await getProjectFiles(project.id);
+      const savedStorage = await getSiteStorage(project.id);
+      if (runToken !== runnerRunToken) return;
+      activeProjectId = project.id;
+      activeStorageValues = normalizeStorageValues(savedStorage);
+      const srcdoc = await buildProjectDocument(project, records, activeStorageValues);
+      if (runToken !== runnerRunToken) return;
+      if (typeof srcdoc !== 'string' || !srcdoc.trim()) {
+        throw new Error('実行用HTMLを作成できなかったよ。ファイルをもう一度追加してみてね。');
+      }
+
+      // onloadをsrcdoc設定より先に登録する。高速なページでloadイベントを取り逃す競合を防ぐ。
+      runnerFrame.onload = () => {
+        if (runToken !== runnerRunToken || !runner.classList.contains('active')) return;
+        if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+        runnerLoadTimer = null;
+        runnerLoading.classList.add('off');
+      };
+      runnerFrame.onerror = () => {
+        if (runToken !== runnerRunToken || !runner.classList.contains('active')) return;
+        if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+        runnerLoadTimer = null;
+        runnerLoading.textContent = 'ページの読み込みに失敗したよ。もう一度実行してみてね。';
+      };
+      runnerLoadTimer = setTimeout(() => {
+        if (runToken !== runnerRunToken || !runner.classList.contains('active')) return;
+        runnerLoadTimer = null;
+        runnerLoading.textContent = '読み込みが完了しないみたい。ネットワークやページ内のスクリプトを確認してね。';
+      }, 20000);
+      runnerFrame.srcdoc = srcdoc;
+    } catch (error) {
+      if (runToken !== runnerRunToken) return;
+      console.error(error);
+      runnerLoading.textContent = '起動できなかったよ：' + (error.message || error);
+      setStatus(error.message || '実行に失敗したよ。', 'error');
+    }
+  }
+
+  function closeRunner(leaveFullscreen = true, popHistory = true) {
+    const flush = flushActiveStorage().catch(error => console.warn('サイトデータの保存に失敗:', error));
+    runnerRunToken++;
+    if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+    runnerLoadTimer = null;
+    runnerFrame.onload = null;
+    runnerFrame.onerror = null;
+    activeProjectId = null;
+    activeStorageValues = Object.create(null);
+    runner.classList.remove('active');
+    runnerLoading.classList.remove('off');
+    runnerLoading.textContent = '読み込み中…';
+    runnerFrame.srcdoc = '';
+    currentObjectUrls.forEach(url => URL.revokeObjectURL(url));
+    currentObjectUrls = [];
+    if (leaveFullscreen && document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+    wasFullscreen = false;
+    if (popHistory && runnerHistoryActive) {
+      runnerHistoryActive = false;
+      history.back();
+    }
+    return flush;
+  }
+
+  window.addEventListener('message', event => {
+    const data = event.data;
+    if (!runnerFrame.contentWindow || event.source !== runnerFrame.contentWindow) return;
+    if (!data || data.projectId !== activeProjectId) return;
+    if (data.__htmlLibraryDomReady === true) {
+      if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+      runnerLoadTimer = null;
+      runnerLoading.classList.add('off');
+      return;
+    }
+    if (data.__htmlLibraryRuntimeError === true) {
+      console.warn('実行中のページでJavaScriptエラー:', data.kind, data.message);
+      setStatus('実行ページ内のJavaScriptエラー (' + data.kind + '): ' + String(data.message || '').slice(0, 180), 'error');
+      return;
+    }
+    if (data.__htmlLibraryExitRequest === true) {
+      closeRunner(true, true);
+      return;
+    }
+    if (data.__htmlLibraryStorageBridge !== true) return;
+    try {
+      activeStorageValues = normalizeStorageValues(data.values);
+      scheduleStorageSave();
+    } catch (error) {
+      console.warn(error);
+    }
+  });
+
+  window.addEventListener('popstate', () => {
+    if (runner.classList.contains('active') && runnerHistoryActive) {
+      runnerHistoryActive = false;
+      closeRunner(false, false);
+    }
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && wasFullscreen && runner.classList.contains('active')) {
+      closeRunner(false, true);
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeAllProjectMenus();
+  });
+  document.addEventListener('pointerdown', event => {
+    if (!event.target.closest('.project-actions')) closeAllProjectMenus();
+  });
+
+  const privacyModal = $('privacyModal');
+  const privacyInfoBtn = $('privacyInfoBtn');
+  function closePrivacyModal() {
+    privacyModal.hidden = true;
+    privacyInfoBtn.setAttribute('aria-expanded', 'false');
+  }
+  privacyInfoBtn.addEventListener('click', () => {
+    privacyModal.hidden = false;
+    privacyInfoBtn.setAttribute('aria-expanded', 'true');
+    $('privacyModalOk').focus();
+  });
+  $('privacyModalClose').addEventListener('click', closePrivacyModal);
+  $('privacyModalOk').addEventListener('click', closePrivacyModal);
+  privacyModal.addEventListener('click', event => { if (event.target === privacyModal) closePrivacyModal(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !privacyModal.hidden) closePrivacyModal(); });
+
+  $('exportBackupBtn').addEventListener('click', async () => {
+    const button = $('exportBackupBtn');
+    button.disabled = true;
+    try {
+      setStatus('ライブラリとサイトデータをバックアップ中…');
+      const result = await exportLibraryBackup();
+      setStatus('バックアップをダウンロードしたよ：' + result.projectCount + ' サイト / ' + formatBytes(result.size), 'success');
+    } catch (error) {
+      console.error(error);
+      setStatus(error.message || 'バックアップを書き出せなかったよ。', 'error');
+    } finally { button.disabled = false; }
+  });
+  $('importBackupBtn').addEventListener('click', () => $('backupInput').click());
+  $('backupInput').addEventListener('change', async () => {
+    const file = $('backupInput').files && $('backupInput').files[0];
+    if (!file) return;
+    const button = $('importBackupBtn');
+    button.disabled = true;
+    try { await importFile(file); }
+    finally { button.disabled = false; $('backupInput').value = ''; }
+  });
+  $('clearLibraryBtn').addEventListener('click', async () => {
+    const projects = await getProjects();
+    if (!projects.length) { setStatus('削除するライブラリはないよ。'); return; }
+    if (!confirm('ライブラリ内の ' + projects.length + ' サイトと、すべてのサイト別保存データを削除する？\nこの操作は元に戻せないよ。必要なら先にバックアップを書き出してね。')) return;
+    const button = $('clearLibraryBtn');
+    button.disabled = true;
+    try {
+      await clearAllLibrary();
+      await renderLibrary();
+      setStatus('ライブラリとすべてのサイト別保存データを削除したよ。', 'success');
+    } catch (error) { setStatus(error.message || 'すべて削除できなかったよ。', 'error'); }
+    finally { button.disabled = false; }
+  });
+
+  $('pickBtn').addEventListener('click', (event) => { event.stopPropagation(); fileInput.click(); });
+  dropzone.addEventListener('click', (event) => {
+    if (event.target === $('pickBtn')) return;
+    fileInput.click();
+  });
+  dropzone.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); fileInput.click(); }
+  });
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (file) importFile(file);
+  });
+  ['dragenter', 'dragover'].forEach(type => dropzone.addEventListener(type, event => {
+    event.preventDefault(); event.stopPropagation(); dropzone.classList.add('drag');
+  }));
+  ['dragleave', 'drop'].forEach(type => dropzone.addEventListener(type, event => {
+    event.preventDefault(); event.stopPropagation(); dropzone.classList.remove('drag');
+  }));
+  dropzone.addEventListener('drop', event => {
+    const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file) importFile(file);
+  });
+  document.addEventListener('dragover', event => event.preventDefault());
+  document.addEventListener('drop', event => event.preventDefault());
+
+  (async () => {
+    try {
+      await openDB();
+      await renderLibrary();
+    } catch (error) {
+      setStatus('ライブラリを開けなかったよ：' + (error.message || error), 'error');
+    }
+  })();
+})();
 </script>
-</body></html>
+</body>
+</html>
