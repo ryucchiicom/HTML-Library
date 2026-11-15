@@ -111,6 +111,8 @@
   let activeStorageValues = Object.create(null);
   let storageSaveTimer = null;
   let runnerHistoryActive = false;
+  let runnerRunToken = 0;
+  let runnerLoadTimer = null;
 
   function setStatus(message, type = '') {
     statusEl.textContent = message;
@@ -925,7 +927,7 @@
     const storageBootstrap = doc.createElement('script');
     const storageSeed = JSON.stringify(savedStorage || {}).replace(/</g, '\\u003c');
     const projectToken = JSON.stringify(project.id).replace(/</g, '\\u003c');
-    storageBootstrap.textContent = "(()=>{const projectId=" + projectToken + ";const data=Object.assign(Object.create(null)," + storageSeed + ");const notify=()=>{try{parent.postMessage({__htmlLibraryStorageBridge:true,projectId,values:data},'*')}catch(e){}};const base={get length(){return Object.keys(data).length},key(index){const keys=Object.keys(data);return Number.isInteger(Number(index))&&Number(index)>=0?keys[Number(index)]??null:null},getItem(key){const k=String(key);return Object.prototype.hasOwnProperty.call(data,k)?data[k]:null},setItem(key,value){data[String(key)]=String(value);notify()},removeItem(key){delete data[String(key)];notify()},clear(){for(const key of Object.keys(data))delete data[key];notify()}};const storage=new Proxy(base,{get(target,key,receiver){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)&&!(key in target))return data[key];const value=Reflect.get(target,key,receiver);return typeof value==='function'?value.bind(target):value},set(target,key,value,receiver){if(typeof key==='string'&&!(key in target)){data[key]=String(value);notify();return true}return Reflect.set(target,key,value,receiver)},deleteProperty(target,key){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)){delete data[key];notify();return true}return Reflect.deleteProperty(target,key)},ownKeys(target){return [...new Set([...Reflect.ownKeys(target),...Object.keys(data)])]},getOwnPropertyDescriptor(target,key){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)&&!(key in target))return {configurable:true,enumerable:true,writable:true,value:data[key]};return Reflect.getOwnPropertyDescriptor(target,key)}});try{Object.defineProperty(window,'localStorage',{configurable:true,enumerable:true,value:storage})}catch(e){try{window.localStorage=storage}catch(_){}}window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!e.defaultPrevented){try{parent.postMessage({__htmlLibraryExitRequest:true,projectId},'*')}catch(_){}}});})();";
+    storageBootstrap.textContent = "(()=>{const projectId=" + projectToken + ";const data=Object.assign(Object.create(null)," + storageSeed + ");const report=(kind,message)=>{try{parent.postMessage({__htmlLibraryRuntimeError:true,projectId,kind,message:String(message||'Unknown error').slice(0,700)},'*')}catch(e){}};addEventListener('error',event=>report('error',event.message||event.error&&event.error.message||'Script error'));addEventListener('unhandledrejection',event=>{const reason=event.reason;report('rejection',reason&& (reason.stack||reason.message)||reason)});document.addEventListener('DOMContentLoaded',()=>{try{parent.postMessage({__htmlLibraryDomReady:true,projectId},'*')}catch(e){}},{once:true});const notify=()=>{try{parent.postMessage({__htmlLibraryStorageBridge:true,projectId,values:data},'*')}catch(e){}};const base={get length(){return Object.keys(data).length},key(index){const keys=Object.keys(data);return Number.isInteger(Number(index))&&Number(index)>=0?keys[Number(index)]??null:null},getItem(key){const k=String(key);return Object.prototype.hasOwnProperty.call(data,k)?data[k]:null},setItem(key,value){data[String(key)]=String(value);notify()},removeItem(key){delete data[String(key)];notify()},clear(){for(const key of Object.keys(data))delete data[key];notify()}};const storage=new Proxy(base,{get(target,key,receiver){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)&&!(key in target))return data[key];const value=Reflect.get(target,key,receiver);return typeof value==='function'?value.bind(target):value},set(target,key,value,receiver){if(typeof key==='string'&&!(key in target)){data[key]=String(value);notify();return true}return Reflect.set(target,key,value,receiver)},deleteProperty(target,key){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)){delete data[key];notify();return true}return Reflect.deleteProperty(target,key)},ownKeys(target){return [...new Set([...Reflect.ownKeys(target),...Object.keys(data)])]},getOwnPropertyDescriptor(target,key){if(typeof key==='string'&&Object.prototype.hasOwnProperty.call(data,key)&&!(key in target))return {configurable:true,enumerable:true,writable:true,value:data[key]};return Reflect.getOwnPropertyDescriptor(target,key)}});try{Object.defineProperty(window,'localStorage',{configurable:true,enumerable:true,value:storage})}catch(e){try{window.localStorage=storage}catch(_){}}window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!e.defaultPrevented){try{parent.postMessage({__htmlLibraryExitRequest:true,projectId},'*')}catch(_){}}});})();";
     doc.head.insertBefore(storageBootstrap, doc.head.firstChild);
 
     return '<!doctype html>\n' + doc.documentElement.outerHTML;
@@ -933,6 +935,7 @@
 
   async function runProject(project) {
     const priorClose = closeRunner(false);
+    const runToken = runnerRunToken;
     runner.classList.add('active');
     runnerLoading.classList.remove('off');
     runnerLoading.textContent = '読み込み中…';
@@ -949,12 +952,12 @@
       try {
         const request = runner.requestFullscreen({ navigationUI: 'hide' });
         if (request && typeof request.then === 'function') {
-          request.then(() => { wasFullscreen = runner.classList.contains('active'); }).catch(() => {
-            setStatus('このブラウザでは完全な全画面表示が許可されなかったよ。戻る操作で終了できるよ。', 'error');
+          request.then(() => { if (runToken === runnerRunToken) wasFullscreen = runner.classList.contains('active'); }).catch(() => {
+            if (runToken === runnerRunToken) setStatus('このブラウザでは完全な全画面表示が許可されなかったよ。戻る操作で終了できるよ。', 'error');
           });
         }
       } catch (_) {
-        setStatus('このブラウザでは完全な全画面表示が使えないよ。戻る操作で終了できるよ。', 'error');
+        setStatus('このブラウザでは完全な全画面表示が使えなかったよ。戻る操作で終了できるよ。', 'error');
       }
     } else {
       setStatus('このブラウザは全画面APIに非対応。戻る操作で終了できるよ。', 'error');
@@ -962,16 +965,41 @@
 
     try {
       await priorClose;
+      if (runToken !== runnerRunToken) return;
       currentObjectUrls.forEach(url => URL.revokeObjectURL(url));
       currentObjectUrls = [];
       const records = await getProjectFiles(project.id);
       const savedStorage = await getSiteStorage(project.id);
+      if (runToken !== runnerRunToken) return;
       activeProjectId = project.id;
       activeStorageValues = normalizeStorageValues(savedStorage);
       const srcdoc = await buildProjectDocument(project, records, activeStorageValues);
+      if (runToken !== runnerRunToken) return;
+      if (typeof srcdoc !== 'string' || !srcdoc.trim()) {
+        throw new Error('実行用HTMLを作成できなかったよ。ファイルをもう一度追加してみてね。');
+      }
+
+      // onloadをsrcdoc設定より先に登録する。高速なページでloadイベントを取り逃す競合を防ぐ。
+      runnerFrame.onload = () => {
+        if (runToken !== runnerRunToken || !runner.classList.contains('active')) return;
+        if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+        runnerLoadTimer = null;
+        runnerLoading.classList.add('off');
+      };
+      runnerFrame.onerror = () => {
+        if (runToken !== runnerRunToken || !runner.classList.contains('active')) return;
+        if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+        runnerLoadTimer = null;
+        runnerLoading.textContent = 'ページの読み込みに失敗したよ。もう一度実行してみてね。';
+      };
+      runnerLoadTimer = setTimeout(() => {
+        if (runToken !== runnerRunToken || !runner.classList.contains('active')) return;
+        runnerLoadTimer = null;
+        runnerLoading.textContent = '読み込みが完了しないみたい。ネットワークやページ内のスクリプトを確認してね。';
+      }, 20000);
       runnerFrame.srcdoc = srcdoc;
-      runnerFrame.onload = () => runnerLoading.classList.add('off');
     } catch (error) {
+      if (runToken !== runnerRunToken) return;
       console.error(error);
       runnerLoading.textContent = '起動できなかったよ：' + (error.message || error);
       setStatus(error.message || '実行に失敗したよ。', 'error');
@@ -980,6 +1008,11 @@
 
   function closeRunner(leaveFullscreen = true, popHistory = true) {
     const flush = flushActiveStorage().catch(error => console.warn('サイトデータの保存に失敗:', error));
+    runnerRunToken++;
+    if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+    runnerLoadTimer = null;
+    runnerFrame.onload = null;
+    runnerFrame.onerror = null;
     activeProjectId = null;
     activeStorageValues = Object.create(null);
     runner.classList.remove('active');
@@ -1003,6 +1036,17 @@
     const data = event.data;
     if (!runnerFrame.contentWindow || event.source !== runnerFrame.contentWindow) return;
     if (!data || data.projectId !== activeProjectId) return;
+    if (data.__htmlLibraryDomReady === true) {
+      if (runnerLoadTimer) clearTimeout(runnerLoadTimer);
+      runnerLoadTimer = null;
+      runnerLoading.classList.add('off');
+      return;
+    }
+    if (data.__htmlLibraryRuntimeError === true) {
+      console.warn('実行中のページでJavaScriptエラー:', data.kind, data.message);
+      setStatus('実行ページ内のJavaScriptエラー (' + data.kind + '): ' + String(data.message || '').slice(0, 180), 'error');
+      return;
+    }
     if (data.__htmlLibraryExitRequest === true) {
       closeRunner(true, true);
       return;
