@@ -56,7 +56,7 @@
         <button class="secondary" id="exportBackupBtn" type="button">バックアップを書き出す</button>
         <button class="secondary" id="importBackupBtn" type="button">バックアップを追加</button>
         <button class="danger-btn" id="clearLibraryBtn" type="button">すべて削除</button>
-        <input id="backupInput" type="file" accept=".hlb,.zip,application/zip,application/x-zip-compressed,application/octet-stream" hidden>
+        <input id="backupInput" type="file" accept=".hlb,application/octet-stream" hidden>
         <input id="updateFileInput" type="file" accept=".html,.htm,.zip,text/html,application/zip,application/x-zip-compressed" hidden>
       </div>
     </div>
@@ -731,6 +731,7 @@
         if (!extracted.length) throw new Error('ZIPの中にファイルが見つからなかったよ。');
         const backupManifestFile = extracted.find(item => safePath(item.path) === BACKUP_MANIFEST);
         if (backupManifestFile) {
+          if (!lower.endsWith('.hlb')) throw new Error('HTML Libraryのバックアップは .hlb ファイルだけ読み込めるよ。通常のサイトZIPは「ファイルをライブラリに追加」から選んでね。');
           if (updateProjectId) throw new Error('バックアップファイル（.hlb）は「ファイルを更新」には使えないよ。通常のバックアップ読み込みから追加してね。');
           setStatus('バックアップを確認中…');
           let manifest;
@@ -1128,7 +1129,7 @@
         html,body{min-height:100%!important;background-color:#0876f5!important;background-image:linear-gradient(135deg,#54e5e7 0%,#08a9f5 22%,#0876f5 48%,#2444ed 72%,#9639ed 100%)!important;background-attachment:fixed!important;background-size:cover!important;color:#f7faff!important}
         body{background:linear-gradient(135deg,#54e5e7 0%,#08a9f5 22%,#0876f5 48%,#2444ed 72%,#9639ed 100%) fixed!important}
         body>:not(script):not(style):not(link):not(meta):not(canvas):not(svg):not(video):not(img){background:transparent!important}
-        :is(#root,#app,#__next,#main,#page,[data-reactroot],[data-v-app],.app,.App,.root,.page,.page-root,.page-wrapper,.site,.site-wrapper,.layout,.layout-root,.main-root,.content-root,.viewport,.screen-root){background:transparent!important;color:#f7faff!important}
+        :is(html,body,#root,#app,#__next,#main,#page,[data-reactroot],[data-v-app],.app,.App,.root,.page,.page-root,.page-wrapper,.site,.site-wrapper,.layout,.layout-root,.main-root,.content-root,.viewport,.screen-root,[class*="app-root" i],[class*="page-root" i],[class*="background" i],[class*="backdrop" i],[id*="background" i],[id*="backdrop" i]){background-color:transparent!important;background-image:none!important;color:#f7faff!important}
         :is(header,nav,main,section,article,aside,footer,[class*="panel" i],[class*="card" i],[class*="dialog" i],[class*="modal" i],[class*="toolbar" i],[class*="surface" i],[class*="window" i],[class*="widget" i],[class*="box" i],[class*="menu" i],[class*="sidebar" i],[class*="header" i],[class*="footer" i],[class*="container" i],[class*="wrapper" i],[id*="panel" i],[id*="card" i],[id*="menu" i],[id*="toolbar" i]){background-color:rgba(12,20,43,.76)!important;border-color:rgba(220,235,255,.28)!important;color:#f7faff!important;backdrop-filter:blur(16px) saturate(1.2)!important;-webkit-backdrop-filter:blur(16px) saturate(1.2)!important}
         button,input[type="button"],input[type="submit"],input[type="reset"],[role="button"],.btn,.button,[class*="button" i],[class*="btn" i],[class*="action" i] button{background:linear-gradient(115deg,#27c9dd 0%,#1688f4 52%,#8558ed 100%)!important;color:#fff!important;border:1px solid rgba(255,255,255,.38)!important;box-shadow:0 5px 17px rgba(24,91,220,.32)!important}
         input:not([type="button"]):not([type="submit"]):not([type="reset"]),textarea,select{background:rgba(9,17,37,.88)!important;color:#fff!important;border-color:rgba(220,235,255,.38)!important;accent-color:#8f68f5!important}
@@ -1139,7 +1140,7 @@
       `;
       doc.head.appendChild(theme);
       const themeRuntime = doc.createElement('script');
-      themeRuntime.textContent = "(()=>{const apply=()=>{try{const w=Math.max(document.documentElement.clientWidth,innerWidth||0),h=Math.max(document.documentElement.clientHeight,innerHeight||0);for(const el of document.querySelectorAll('body *')){if(!el||/^(SCRIPT|STYLE|LINK|META|CANVAS|VIDEO|IMG|SVG|PATH|IFRAME)$/i.test(el.tagName))continue;const r=el.getBoundingClientRect();if(r.width<w*.88||r.height<h*.72)continue;const cs=getComputedStyle(el);if(cs.backgroundImage!=='none'||(cs.backgroundColor!=='rgba(0, 0, 0, 0)'&&cs.backgroundColor!=='transparent'))el.style.setProperty('background','transparent','important');}}catch(_){}};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();let queued=false;const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})};const observer=new MutationObserver(schedule);observer.observe(document.documentElement,{subtree:true,childList:true});setTimeout(apply,250);setTimeout(apply,1200);})();";
+      themeRuntime.textContent = "(()=>{const excluded=/^(SCRIPT|STYLE|LINK|META|CANVAS|VIDEO|IMG|SVG|PATH|IFRAME|BUTTON|INPUT|TEXTAREA|SELECT)$/i;const apply=()=>{try{const w=Math.max(document.documentElement.clientWidth,innerWidth||0),h=Math.max(document.documentElement.clientHeight,innerHeight||0);const roots=new Set([document.body,document.getElementById('root'),document.getElementById('app'),document.getElementById('__next'),document.querySelector('[data-reactroot]'),document.querySelector('[data-v-app]')].filter(Boolean));for(const el of document.querySelectorAll('body *')){if(!el||excluded.test(el.tagName))continue;const r=el.getBoundingClientRect();const large=r.width>=w*.62&&r.height>=h*.62;const topWrapper=el.parentElement===document.body&&r.width>=w*.5&&r.height>=h*.45;if(!large&&!topWrapper)continue;const cs=getComputedStyle(el);const hasPaint=cs.backgroundImage!=='none'||(cs.backgroundColor!=='rgba(0, 0, 0, 0)'&&cs.backgroundColor!=='transparent');if(hasPaint||roots.has(el)){el.style.setProperty('background-color','transparent','important');el.style.setProperty('background-image','none','important');el.style.setProperty('box-shadow','none','important');}}for(const el of roots){if(el!==document.body){el.style.setProperty('background','transparent','important');el.style.setProperty('color','#f7faff','important')}}}catch(_){}};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();let queued=false;const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})};const observer=new MutationObserver(schedule);observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style']});setTimeout(apply,100);setTimeout(apply,350);setTimeout(apply,1000);setTimeout(apply,2500);})();";
       doc.head.appendChild(themeRuntime);
     }
 
@@ -1363,7 +1364,11 @@
     if (!file) return;
     const button = $('importBackupBtn');
     button.disabled = true;
-    try { await importFile(file); }
+    try {
+      if (!file.name.toLowerCase().endsWith('.hlb')) throw new Error('バックアップの読み込みは .hlb ファイルのみ対応しているよ。');
+      await importFile(file);
+    }
+    catch (error) { setStatus(error.message || 'バックアップを読み込めなかったよ。', 'error'); }
     finally { button.disabled = false; $('backupInput').value = ''; }
   });
   $('updateFileInput').addEventListener('change', async () => {
