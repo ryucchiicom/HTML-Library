@@ -22,6 +22,8 @@
 @media(max-width:760px){.library-head{align-items:stretch}.library-tools{justify-content:flex-start}.library-tools button{flex:1 1 calc(50% - 7px)}.library-title{justify-content:space-between}.privacy-modal{padding:17px}}
 
 @media(max-width:760px){.project-actions{align-items:center}.project-actions>button{height:38px;min-height:38px;padding:0 10px}.app{width:min(100% - 22px,620px);padding-top:17px}.hero{grid-template-columns:1fr}.privacy{padding:17px}.drop-panel,.library{padding:17px}.top{margin-bottom:18px}.brand h1{font-size:18px}.logo{width:44px;height:44px}.local-pill{font-size:10px;padding:7px 9px}.project{align-items:flex-start}.project-actions{flex-direction:row}.project-actions>button{min-width:0;padding:8px 10px}.more-menu{width:178px}.dropzone{min-height:160px}}
+
+.zip-entry-modal{width:min(100%,560px)}.zip-entry-modal>.modal-lead{margin:14px 0 0}.zip-entry-options{display:grid;gap:7px;max-height:min(48vh,390px);overflow:auto;margin-top:12px;padding:2px}.zip-entry-choice{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0;padding:11px 12px;border:1px solid #465572;border-radius:11px;background:linear-gradient(115deg,#17243b,#202d49);color:#f4f7ff;text-align:left;font-size:12px;font-weight:650}.zip-entry-choice span{min-width:0;overflow-wrap:anywhere}.zip-entry-choice small{flex:none;color:#c4d4ee;font-weight:500}.zip-entry-choice:hover,.zip-entry-choice:focus-visible{outline:2px solid #8caeff;outline-offset:1px;background:linear-gradient(115deg,#243d60,#373b70)}.zip-entry-repeat{display:flex;align-items:center;gap:9px;margin-top:13px;color:#eef3ff;font-size:12px}.zip-entry-repeat input{width:17px;height:17px;accent-color:#8f75f6}
 </style>
 </head>
 <body>
@@ -34,15 +36,15 @@
   <section class="hero">
     <div class="panel drop-panel">
       <h2 class="section-title">ファイルをライブラリに追加</h2>
-      <p class="sub">HTMLファイル、または <b>index.html</b> を含むZIPを選択してね。画像・CSS・JSも使う場合はZIPにまとめてね。</p>
+      <p class="sub">HTMLファイル、または <b>index.html/htm</b> を含むZIPを推奨します。画像・CSS・JSなども使う場合はZIPにまとめてください。</p>
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="HTMLまたはZIPを選択">
         <div class="upload-icon">⇧</div>
         <strong>ここにドラッグ＆ドロップ</strong>
         <span>または下のボタンからファイルを選択</span>
         <button class="primary" id="pickBtn" type="button">ファイルを選択</button>
-        <input id="fileInput" type="file" accept=".html,.htm,.zip,text/html,application/zip,application/x-zip-compressed" hidden>
+        <input id="fileInput" type="file" accept=".html,.htm,.zip,.hlb,text/html,application/zip,application/x-zip-compressed" hidden>
       </div>
-      <div class="status" id="status" aria-live="polite">対応形式：.html / .htm / .zip</div>
+      <div class="status" id="status" aria-live="polite">対応形式：.html / .htm / .zip / .hlb</div>
     </div>
 
   </section>
@@ -54,14 +56,14 @@
         <button class="secondary" id="exportBackupBtn" type="button">バックアップを書き出す</button>
         <button class="secondary" id="importBackupBtn" type="button">バックアップを追加</button>
         <button class="danger-btn" id="clearLibraryBtn" type="button">すべて削除</button>
-        <input id="backupInput" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+        <input id="backupInput" type="file" accept=".hlb,.zip,application/zip,application/x-zip-compressed,application/octet-stream" hidden>
         <input id="updateFileInput" type="file" accept=".html,.htm,.zip,text/html,application/zip,application/x-zip-compressed" hidden>
       </div>
     </div>
     <div class="empty" id="empty"><div class="big">▱</div>まだファイルがないよ。HTMLかZIPを追加してみてね。</div>
     <div class="project-list" id="projectList"></div>
   </section>
-  <p class="foot">データはこのブラウザ内に保存されるよ。バックアップZIPにはHTML・関連ファイル・各サイトの保存データが含まれるよ。</p>
+  <p class="foot">データはこのブラウザ内に保存されるよ。バックアップファイル（.hlb）にはHTML・関連ファイル・各サイトの保存データが含まれるよ。</p>
 </main>
 
 <div class="modal-backdrop" id="privacyModal" hidden>
@@ -75,6 +77,17 @@
       <p class="modal-warning">注意：実行するHTMLの内容は確認してね。実行するサイトはインターネット通信を利用できるよ。ブラウザのサイトデータを消すと、バックアップしていないライブラリも消える場合があるよ。</p>
     </div>
     <button class="primary modal-ok" id="privacyModalOk" type="button">OK</button>
+  </section>
+</div>
+
+
+<div class="modal-backdrop" id="zipEntryModal" hidden>
+  <section class="privacy-modal zip-entry-modal" role="dialog" aria-modal="true" aria-labelledby="zipEntryModalTitle">
+    <div class="modal-head"><h2 id="zipEntryModalTitle">起動するHTMLを選択</h2><button class="modal-close" id="zipEntryCancel" type="button" aria-label="閉じる">×</button></div>
+    <p class="modal-lead" id="zipEntryModalLead">ZIP内から起動するHTMLファイルを選んでね。</p>
+    <div class="zip-entry-options" id="zipEntryOptions"></div>
+    <label class="zip-entry-repeat"><input id="zipEntryAlwaysAsk" type="checkbox"> 次回以降も毎回選択する</label>
+    <button class="secondary modal-ok" id="zipEntryCancelBottom" type="button">キャンセル</button>
   </section>
 </div>
 
@@ -383,7 +396,7 @@
     const a = document.createElement('a');
     const date = new Date();
     const stamp = [date.getFullYear(), String(date.getMonth()+1).padStart(2,'0'), String(date.getDate()).padStart(2,'0'), '-', String(date.getHours()).padStart(2,'0'), String(date.getMinutes()).padStart(2,'0')].join('');
-    a.href = url; a.download = 'html-library-backup-' + stamp + '.zip';
+    a.href = url; a.download = 'html-library-backup-' + stamp + '.hlb';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 30000);
     return { projectCount: manifest.projects.length, fileCount: zipEntries.length - 1, size: blob.size };
@@ -625,6 +638,80 @@
     return map[ext] || 'application/octet-stream';
   }
 
+  const ZIP_ENTRY_PREF_KEY = 'html-library-zip-entry-choice-v1';
+
+  function readZipEntryPreference() {
+    try {
+      const value = JSON.parse(localStorage.getItem(ZIP_ENTRY_PREF_KEY) || 'null');
+      return value && typeof value === 'object' ? value : { mode: 'remember', path: '' };
+    } catch (_) { return { mode: 'remember', path: '' }; }
+  }
+
+  function writeZipEntryPreference(value) {
+    try { localStorage.setItem(ZIP_ENTRY_PREF_KEY, JSON.stringify(value)); } catch (error) { console.warn('ZIP起動ファイルの設定を保存できなかったよ。', error); }
+  }
+
+  function chooseZipEntry(candidates) {
+    const preference = readZipEntryPreference();
+    if (preference.mode !== 'ask' && preference.path) {
+      const remembered = candidates.find(item => item.path === preference.path);
+      if (remembered) return Promise.resolve(remembered.path);
+    }
+
+    const modal = $('zipEntryModal');
+    const options = $('zipEntryOptions');
+    const alwaysAsk = $('zipEntryAlwaysAsk');
+    const cancel = $('zipEntryCancel');
+    const cancelBottom = $('zipEntryCancelBottom');
+    options.replaceChildren();
+    alwaysAsk.checked = preference.mode === 'ask';
+    $('zipEntryModalLead').textContent = 'ZIP内に index.html / index.htm がなかったため、起動するHTMLファイルを選んでね。通常は選んだファイルを次回以降も自動で使用し、下のチェックをオンにすると毎回選択するよ。';
+
+    return new Promise(resolve => {
+      let settled = false;
+      const finish = (path) => {
+        if (settled) return;
+        settled = true;
+        modal.hidden = true;
+        cancel.removeEventListener('click', onCancel);
+        cancelBottom.removeEventListener('click', onCancel);
+        modal.removeEventListener('click', onBackdrop);
+        options.removeEventListener('click', onChoose);
+        resolve(path);
+      };
+      const onCancel = () => finish(null);
+      const onBackdrop = event => { if (event.target === modal) finish(null); };
+      const onChoose = event => {
+        const button = event.target.closest('[data-zip-entry-path]');
+        if (!button) return;
+        const path = button.getAttribute('data-zip-entry-path');
+        if (alwaysAsk.checked) writeZipEntryPreference({ mode: 'ask', path: '' });
+        else writeZipEntryPreference({ mode: 'remember', path });
+        finish(path);
+      };
+
+      for (const item of candidates) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'zip-entry-choice';
+        button.setAttribute('data-zip-entry-path', item.path);
+        const path = document.createElement('span');
+        path.textContent = item.path;
+        const ext = document.createElement('small');
+        ext.textContent = formatBytes(item.size);
+        button.append(path, ext);
+        options.append(button);
+      }
+      cancel.addEventListener('click', onCancel);
+      cancelBottom.addEventListener('click', onCancel);
+      modal.addEventListener('click', onBackdrop);
+      options.addEventListener('click', onChoose);
+      modal.hidden = false;
+      const first = options.querySelector('button');
+      if (first) first.focus();
+    });
+  }
+
   async function importFile(file, updateProjectId = null) {
     if (importing) return;
     importing = true;
@@ -633,18 +720,18 @@
       const lower = file.name.toLowerCase();
       let entries = [];
       let entryPath = '';
-      let projectName = file.name.replace(/\.(html?|zip)$/i, '') || 'Untitled';
+      let projectName = file.name.replace(/\.(html?|zip|hlb)$/i, '') || 'Untitled';
       if (lower.endsWith('.html') || lower.endsWith('.htm') || file.type === 'text/html') {
         if (file.size > MAX_FILE_SIZE) throw new Error('HTMLファイルが大きすぎるよ（上限 ' + formatBytes(MAX_FILE_SIZE) + '）。');
         entryPath = safePath(file.name) || 'index.html';
         entries = [{ path: entryPath, blob: file, size: file.size, type: 'text/html' }];
-      } else if (lower.endsWith('.zip') || file.type.includes('zip')) {
+      } else if (lower.endsWith('.zip') || lower.endsWith('.hlb') || file.type.includes('zip')) {
         setStatus('ZIPを展開中…');
         const extracted = await readZip(await file.arrayBuffer(), (n, total) => setStatus('ZIPを展開中… ' + n + ' / ' + total));
         if (!extracted.length) throw new Error('ZIPの中にファイルが見つからなかったよ。');
         const backupManifestFile = extracted.find(item => safePath(item.path) === BACKUP_MANIFEST);
         if (backupManifestFile) {
-          if (updateProjectId) throw new Error('バックアップZIPは「ファイルを更新」には使えないよ。通常のバックアップ読み込みから追加してね。');
+          if (updateProjectId) throw new Error('バックアップファイル（.hlb）は「ファイルを更新」には使えないよ。通常のバックアップ読み込みから追加してね。');
           setStatus('バックアップを確認中…');
           let manifest;
           try { manifest = JSON.parse(new TextDecoder('utf-8').decode(backupManifestFile.data)); }
@@ -654,12 +741,20 @@
           setStatus('バックアップを追加したよ：' + result.projectCount + ' サイト / ' + result.fileCount + ' ファイル', 'success');
           return;
         }
+        if (lower.endsWith('.hlb')) throw new Error('この .hlb ファイルはHTML Libraryのバックアップとして認識できなかったよ。ファイルが壊れていないか確認してね。');
         const siteArchiveSize = extracted.reduce((sum, item) => sum + item.size, 0);
         if (siteArchiveSize > MAX_TOTAL_SIZE) throw new Error('サイトZIPの展開サイズが大きすぎるよ（上限 ' + formatBytes(MAX_TOTAL_SIZE) + '）。');
-        const candidates = extracted.filter(item => /(^|\/)index\.html?$/i.test(item.path));
-        if (!candidates.length) throw new Error('ZIP内に index.html（または index.htm）が見つからないよ。');
-        candidates.sort((a, b) => a.path.split('/').length - b.path.split('/').length);
-        entryPath = candidates[0].path;
+        const indexCandidates = extracted.filter(item => /(^|\/)index\.html?$/i.test(item.path));
+        if (indexCandidates.length) {
+          indexCandidates.sort((a, b) => a.path.split('/').length - b.path.split('/').length || a.path.localeCompare(b.path, 'ja'));
+          entryPath = indexCandidates[0].path;
+        } else {
+          const htmlCandidates = extracted.filter(item => /\.html?$/i.test(item.path));
+          if (!htmlCandidates.length) throw new Error('ZIP内にHTMLまたはHTMファイルが見つからないよ。');
+          htmlCandidates.sort((a, b) => a.path.split('/').length - b.path.split('/').length || a.path.localeCompare(b.path, 'ja'));
+          entryPath = await chooseZipEntry(htmlCandidates);
+          if (!entryPath) throw new Error('起動するHTMLの選択をキャンセルしたよ。');
+        }
         entries = extracted.map(item => ({
           path: item.path,
           blob: new Blob([item.data], { type: item.type }),
@@ -680,7 +775,7 @@
           entryPath,
           fileCount: entries.length,
           totalSize,
-          kind: lower.endsWith('.zip') ? 'ZIP' : 'HTML',
+          kind: (lower.endsWith('.zip') || lower.endsWith('.hlb')) ? 'ZIP' : 'HTML',
           updatedAt: Date.now()
         };
         setStatus('「' + existing.name + '」のファイルを更新中…');
@@ -691,7 +786,7 @@
         const project = {
           id: makeId(), name: projectName, originalName: file.name, entryPath,
           createdAt: Date.now(), fileCount: entries.length, totalSize,
-          kind: lower.endsWith('.zip') ? 'ZIP' : 'HTML'
+          kind: (lower.endsWith('.zip') || lower.endsWith('.hlb')) ? 'ZIP' : 'HTML'
         };
         setStatus('端末内のライブラリに保存中…');
         await saveProject(project, entries);
@@ -1029,18 +1124,23 @@
       const theme = doc.createElement('style');
       theme.setAttribute('data-html-library-temporary-theme', 'true');
       theme.textContent = `
-        :root{color-scheme:dark!important;--primary:#168df5!important;--accent:#8e63f5!important;--accent-color:#8e63f5!important;--bg:#111a35!important;--background:#111a35!important;--surface:rgba(13,22,48,.78)!important;--panel:rgba(13,22,48,.78)!important;--text:#f7faff!important;--foreground:#f7faff!important}
-        html,body{min-height:100%!important;background:linear-gradient(135deg,#54e5e7 0%,#08a9f5 22%,#0876f5 48%,#2444ed 72%,#9639ed 100%) fixed!important;color:#f7faff!important}
-        body{background-attachment:fixed!important}
-        body>header,body>nav,body>main,body>section,body>article,body>aside,body>footer,
-        [class*="panel" i],[class*="card" i],[class*="dialog" i],[class*="modal" i],[class*="toolbar" i],
-        .container,.wrapper,.content-box,.widget,.box{background-color:rgba(12,20,43,.76)!important;border-color:rgba(220,235,255,.28)!important;color:#f7faff!important;backdrop-filter:blur(16px) saturate(1.2)!important;-webkit-backdrop-filter:blur(16px) saturate(1.2)!important}
-        button,input[type="button"],input[type="submit"],input[type="reset"],[role="button"],.btn,.button,[class*="button" i],[class*="btn" i]{background:linear-gradient(115deg,#27c9dd 0%,#1688f4 52%,#8558ed 100%)!important;color:#fff!important;border:1px solid rgba(255,255,255,.38)!important;box-shadow:0 5px 17px rgba(24,91,220,.32)!important}
-        input:not([type="button"]):not([type="submit"]):not([type="reset"]),textarea,select{background:rgba(9,17,37,.82)!important;color:#fff!important;border-color:rgba(220,235,255,.38)!important;accent-color:#8f68f5!important}
+        :root{color-scheme:dark!important;--primary:#168df5!important;--accent:#8e63f5!important;--accent-color:#8e63f5!important;--bg:#111a35!important;--background:#111a35!important;--surface:rgba(13,22,48,.78)!important;--panel:rgba(13,22,48,.78)!important;--card:rgba(13,22,48,.76)!important;--text:#f7faff!important;--foreground:#f7faff!important;--primary-color:#168df5!important;--secondary-color:#865df1!important}
+        html,body{min-height:100%!important;background-color:#0876f5!important;background-image:linear-gradient(135deg,#54e5e7 0%,#08a9f5 22%,#0876f5 48%,#2444ed 72%,#9639ed 100%)!important;background-attachment:fixed!important;background-size:cover!important;color:#f7faff!important}
+        body{background:linear-gradient(135deg,#54e5e7 0%,#08a9f5 22%,#0876f5 48%,#2444ed 72%,#9639ed 100%) fixed!important}
+        body>:not(script):not(style):not(link):not(meta):not(canvas):not(svg):not(video):not(img){background:transparent!important}
+        :is(#root,#app,#__next,#main,#page,[data-reactroot],[data-v-app],.app,.App,.root,.page,.page-root,.page-wrapper,.site,.site-wrapper,.layout,.layout-root,.main-root,.content-root,.viewport,.screen-root){background:transparent!important;color:#f7faff!important}
+        :is(header,nav,main,section,article,aside,footer,[class*="panel" i],[class*="card" i],[class*="dialog" i],[class*="modal" i],[class*="toolbar" i],[class*="surface" i],[class*="window" i],[class*="widget" i],[class*="box" i],[class*="menu" i],[class*="sidebar" i],[class*="header" i],[class*="footer" i],[class*="container" i],[class*="wrapper" i],[id*="panel" i],[id*="card" i],[id*="menu" i],[id*="toolbar" i]){background-color:rgba(12,20,43,.76)!important;border-color:rgba(220,235,255,.28)!important;color:#f7faff!important;backdrop-filter:blur(16px) saturate(1.2)!important;-webkit-backdrop-filter:blur(16px) saturate(1.2)!important}
+        button,input[type="button"],input[type="submit"],input[type="reset"],[role="button"],.btn,.button,[class*="button" i],[class*="btn" i],[class*="action" i] button{background:linear-gradient(115deg,#27c9dd 0%,#1688f4 52%,#8558ed 100%)!important;color:#fff!important;border:1px solid rgba(255,255,255,.38)!important;box-shadow:0 5px 17px rgba(24,91,220,.32)!important}
+        input:not([type="button"]):not([type="submit"]):not([type="reset"]),textarea,select{background:rgba(9,17,37,.88)!important;color:#fff!important;border-color:rgba(220,235,255,.38)!important;accent-color:#8f68f5!important}
+        :is(h1,h2,h3,h4,h5,h6,p,label,legend,summary,li,small,strong,em,dt,dd){color:#f2f6ff!important}
         a{color:#c5dcff!important}a:visited{color:#e0caff!important}
         :focus-visible{outline:2px solid #fff!important;outline-offset:3px!important}
+        canvas,video,img,svg{max-width:100%}
       `;
       doc.head.appendChild(theme);
+      const themeRuntime = doc.createElement('script');
+      themeRuntime.textContent = "(()=>{const apply=()=>{try{const w=Math.max(document.documentElement.clientWidth,innerWidth||0),h=Math.max(document.documentElement.clientHeight,innerHeight||0);for(const el of document.querySelectorAll('body *')){if(!el||/^(SCRIPT|STYLE|LINK|META|CANVAS|VIDEO|IMG|SVG|PATH|IFRAME)$/i.test(el.tagName))continue;const r=el.getBoundingClientRect();if(r.width<w*.88||r.height<h*.72)continue;const cs=getComputedStyle(el);if(cs.backgroundImage!=='none'||(cs.backgroundColor!=='rgba(0, 0, 0, 0)'&&cs.backgroundColor!=='transparent'))el.style.setProperty('background','transparent','important');}}catch(_){}};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();let queued=false;const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})};const observer=new MutationObserver(schedule);observer.observe(document.documentElement,{subtree:true,childList:true});setTimeout(apply,250);setTimeout(apply,1200);})();";
+      doc.head.appendChild(themeRuntime);
     }
 
     const storageBootstrap = doc.createElement('script');
